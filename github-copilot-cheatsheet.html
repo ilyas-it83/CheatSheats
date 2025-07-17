@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub Copilot Cheatsheet</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-size: 10px;
+            line-height: 1.3;
+            color: #e2e8f0;
+            background: #1a202c;
+            padding: 10px;
+            max-width: 210mm;
+            margin: 0 auto;
+        }
+
+        .container {
+            max-width: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #6f42c1 0%, #563d7c 100%);
+            color: white;
+            padding: 6px 10px;
+            text-align: center;
+            margin-bottom: 8px;
+            border-radius: 4px;
+            position: relative;
+        }
+
+        .header::before {
+            content: "🤖";
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 18px;
+        }
+
+        .header::after {
+            content: "⚡";
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 14px;
+        }
+
+        .header h1 {
+            font-size: 16px;
+            margin-bottom: 2px;
+        }
+
+        .header h1::before {
+            content: "🧠 ";
+            font-size: 14px;
+        }
+
+        .header p {
+            font-size: 9px;
+            opacity: 0.9;
+        }
+
+        .main-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+            gap: 6px;
+            margin-bottom: 8px;
+        }
+
+        .section {
+            background: #2d3748;
+            border: 1px solid #4a5568;
+            border-radius: 3px;
+            padding: 6px;
+        }
+
+        .section h2 {
+            font-size: 10px;
+            color: white;
+            margin-bottom: 4px;
+            background: #6f42c1;
+            padding: 2px 4px;
+            border-radius: 2px;
+            text-align: center;
+            position: relative;
+        }
+
+        .section h2::before {
+            margin-right: 4px;
+            font-size: 10px;
+        }
+
+        .section:nth-child(1) h2::before { content: "🚀"; }
+        .section:nth-child(2) h2::before { content: "⌨️"; }
+        .section:nth-child(3) h2::before { content: "💬"; }
+        .section:nth-child(4) h2::before { content: "🔧"; }
+
+        .item-list {
+            list-style: none;
+        }
+
+        .item {
+            margin-bottom: 2px;
+            font-size: 8px;
+        }
+
+        .feature {
+            font-family: 'SF Mono', Monaco, monospace;
+            background: #4a5568;
+            color: #81c784;
+            padding: 1px 3px;
+            border-radius: 2px;
+            display: inline-block;
+            margin-bottom: 1px;
+            font-size: 7px;
+            position: relative;
+        }
+
+        .feature::before {
+            content: "▶";
+            color: #6f42c1;
+            margin-right: 2px;
+            font-size: 6px;
+        }
+
+        .shortcut {
+            font-family: 'SF Mono', Monaco, monospace;
+            background: #553c9a;
+            color: #ffffff;
+            padding: 1px 3px;
+            border-radius: 2px;
+            display: inline-block;
+            margin-bottom: 1px;
+            font-size: 7px;
+            font-weight: 600;
+        }
+
+        .github-logo {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            background: #333;
+            border-radius: 50%;
+            margin-right: 4px;
+            vertical-align: middle;
+            position: relative;
+        }
+
+        .github-logo::after {
+            content: "🐙";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 8px;
+        }
+
+        .copilot-icon {
+            font-size: 12px;
+            color: #6f42c1;
+            margin-right: 2px;
+        }
+
+        .desc {
+            color: #a0aec0;
+            font-size: 7px;
+            margin-left: 2px;
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 7px;
+            margin-bottom: 4px;
+        }
+
+        .table th {
+            background: #4a5568;
+            color: white;
+            padding: 2px 3px;
+            text-align: left;
+            font-weight: 600;
+            border-bottom: 1px solid #718096;
+            font-size: 7px;
+        }
+
+        .table td {
+            padding: 1px 3px;
+            border-bottom: 1px solid #4a5568;
+            vertical-align: top;
+            background: #2d3748;
+        }
+
+        .table .code {
+            font-family: 'SF Mono', Monaco, monospace;
+            background: #1a202c;
+            color: #81c784;
+            padding: 1px 2px;
+            border-radius: 1px;
+            font-size: 7px;
+        }
+
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6px;
+            margin-bottom: 6px;
+        }
+
+        .three-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 4px;
+            margin-bottom: 6px;
+        }
+
+        .compact-section {
+            background: #2d3748;
+            border: 1px solid #4a5568;
+            border-radius: 3px;
+            padding: 4px;
+            margin-bottom: 4px;
+        }
+
+        .compact-section h3 {
+            font-size: 9px;
+            color: #e2e8f0;
+            margin-bottom: 3px;
+            font-weight: 600;
+            position: relative;
+            padding-left: 16px;
+        }
+
+        .compact-section h3::before {
+            position: absolute;
+            left: 0;
+            font-size: 10px;
+        }
+
+        .compact-section h3[data-icon="setup"]::before { content: "⚙️"; }
+        .compact-section h3[data-icon="languages"]::before { content: "🌐"; }
+        .compact-section h3[data-icon="tips"]::before { content: "💡"; }
+        .compact-section h3[data-icon="settings"]::before { content: "🎛️"; }
+        .compact-section h3[data-icon="chat"]::before { content: "💬"; }
+        .compact-section h3[data-icon="code"]::before { content: "💻"; }
+        .compact-section h3[data-icon="debug"]::before { content: "🐛"; }
+        .compact-section h3[data-icon="models"]::before { content: "🧠"; }
+
+        .flow {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin: 4px 0;
+            padding: 3px;
+            background: #4a5568;
+            border-radius: 3px;
+            font-size: 7px;
+            position: relative;
+        }
+
+        .flow::before {
+            content: "🚀";
+            position: absolute;
+            left: -15px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 12px;
+        }
+
+        .flow::after {
+            content: "🎯";
+            position: absolute;
+            right: -15px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 12px;
+        }
+
+        .flow-step {
+            background: #6f42c1;
+            color: white;
+            padding: 2px 4px;
+            border-radius: 2px;
+            font-size: 6px;
+            position: relative;
+        }
+
+        .flow-step::before {
+            content: "🔧";
+            margin-right: 2px;
+            font-size: 8px;
+        }
+
+        .flow-arrow {
+            color: #a0aec0;
+            font-size: 8px;
+        }
+
+        .grid-items {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+            gap: 3px;
+            margin: 4px 0;
+        }
+
+        .grid-item {
+            background: #4a5568;
+            border: 1px solid #718096;
+            border-radius: 2px;
+            padding: 3px;
+            text-align: center;
+            font-size: 6px;
+        }
+
+        .grid-item .title {
+            font-weight: 600;
+            color: #e2e8f0;
+            margin-bottom: 1px;
+            font-size: 7px;
+        }
+
+        .grid-item .feature {
+            font-size: 6px;
+            padding: 1px 2px;
+            margin-bottom: 1px;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 1px 3px;
+            border-radius: 2px;
+            font-size: 6px;
+            font-weight: 500;
+            margin: 1px;
+        }
+
+        .status-success { background: #38a169; color: white; }
+        .status-warning { background: #d69e2e; color: white; }
+        .status-info { background: #3182ce; color: white; }
+        .status-error { background: #e53e3e; color: white; }
+
+        .tips {
+            background: #2c5530;
+            border-left: 3px solid #38a169;
+            padding: 4px 6px;
+            margin: 4px 0;
+            font-size: 7px;
+            color: #c6f6d5;
+        }
+
+        .warning {
+            background: #744210;
+            border-left: 3px solid #d69e2e;
+            padding: 4px 6px;
+            margin: 4px 0;
+            font-size: 7px;
+            color: #faf089;
+        }
+
+        .info {
+            background: #2c5282;
+            border-left: 3px solid #3182ce;
+            padding: 4px 6px;
+            margin: 4px 0;
+            font-size: 7px;
+            color: #bee3f8;
+        }
+
+        .ide-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2px;
+            margin: 4px 0;
+        }
+
+        .ide-item {
+            background: #553c9a;
+            border: 1px solid #6f42c1;
+            border-radius: 2px;
+            padding: 2px;
+            text-align: center;
+            font-size: 6px;
+            color: white;
+        }
+
+        .ref-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 2px;
+            margin: 4px 0;
+        }
+
+        .ref-item {
+            background: #4a5568;
+            border: 1px solid #718096;
+            border-radius: 2px;
+            padding: 2px;
+            text-align: center;
+            font-size: 6px;
+        }
+
+        .ref-item .key {
+            font-family: 'SF Mono', Monaco, monospace;
+            background: #1a202c;
+            color: #81c784;
+            padding: 1px 2px;
+            border-radius: 1px;
+            display: block;
+            margin-bottom: 1px;
+            font-size: 6px;
+        }
+
+        .ref-item .val {
+            color: #a0aec0;
+            font-size: 5px;
+        }
+
+        .center-text {
+            text-align: center;
+        }
+
+        .small-text {
+            font-size: 7px;
+            color: #a0aec0;
+        }
+
+        /* Print Optimization */
+        @media print {
+            body {
+                font-size: 8px;
+                padding: 8px;
+                background: white !important;
+                color: black !important;
+            }
+            
+            .header {
+                background: #6f42c1 !important;
+                color: white !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            
+            .section, .compact-section {
+                background: #f8f9fa !important;
+                border: 1px solid #dee2e6 !important;
+                color: black !important;
+                page-break-inside: avoid;
+            }
+            
+            .section h2 {
+                background: #6f42c1 !important;
+                color: white !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            
+            .feature, .shortcut, .table .code, .ref-item .key {
+                background: #f8f9fa !important;
+                color: black !important;
+                border: 1px solid #dee2e6 !important;
+            }
+
+            .table th {
+                background: #e9ecef !important;
+                color: black !important;
+            }
+
+            .table td {
+                background: white !important;
+                color: black !important;
+            }
+
+            .tips, .warning, .info {
+                color: black !important;
+            }
+
+            .status {
+                color: white !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>GitHub Copilot Cheatsheet</h1>
+            <p><span class="github-logo"></span>AI pair programming assistant for developers - Essential commands and features</p>
+        </div>
+
+        <!-- Main 4-Column Grid -->
+        <div class="main-grid">
+            <!-- Getting Started -->
+            <div class="section">
+                <h2>Getting Started</h2>
+                <ul class="item-list">
+                    <li class="item"><span class="feature">Install Extension</span><span class="desc">VS Code, JetBrains, Neovim</span></li>
+                    <li class="item"><span class="feature">Sign In</span><span class="desc">GitHub account required</span></li>
+                    <li class="item"><span class="feature">Enable Copilot</span><span class="desc">Active subscription needed</span></li>
+                    <li class="item"><span class="feature">Auto-complete</span><span class="desc">Inline suggestions</span></li>
+                    <li class="item"><span class="feature">Chat Panel</span><span class="desc">Conversational coding</span></li>
+                    <li class="item"><span class="feature">Workspace</span><span class="desc">Context-aware suggestions</span></li>
+                </ul>
+            </div>
+
+            <!-- Key Shortcuts -->
+            <div class="section">
+                <h2>Key Shortcuts</h2>
+                <ul class="item-list">
+                    <li class="item"><span class="shortcut">Tab</span><span class="desc">Accept suggestion</span></li>
+                    <li class="item"><span class="shortcut">Esc</span><span class="desc">Dismiss suggestion</span></li>
+                    <li class="item"><span class="shortcut">Alt + ]</span><span class="desc">Next suggestion</span></li>
+                    <li class="item"><span class="shortcut">Alt + [</span><span class="desc">Previous suggestion</span></li>
+                    <li class="item"><span class="shortcut">Ctrl + Enter</span><span class="desc">Open suggestions panel</span></li>
+                    <li class="item"><span class="shortcut">Ctrl + Shift + I</span><span class="desc">Toggle Copilot</span></li>
+                </ul>
+            </div>
+
+            <!-- Chat Commands -->
+            <div class="section">
+                <h2>Chat Commands</h2>
+                <ul class="item-list">
+                    <li class="item"><span class="feature">/explain</span><span class="desc">Code explanation</span></li>
+                    <li class="item"><span class="feature">/fix</span><span class="desc">Bug fixes</span></li>
+                    <li class="item"><span class="feature">/doc</span><span class="desc">Generate documentation</span></li>
+                    <li class="item"><span class="feature">/tests</span><span class="desc">Create unit tests</span></li>
+                    <li class="item"><span class="feature">/simplify</span><span class="desc">Refactor code</span></li>
+                    <li class="item"><span class="feature">/optimize</span><span class="desc">Performance improvements</span></li>
+                </ul>
+            </div>
+
+            <!-- Settings -->
+            <div class="section">
+                <h2>Configuration</h2>
+                <ul class="item-list">
+                    <li class="item"><span class="feature">Enable/Disable</span><span class="desc">Per language/file</span></li>
+                    <li class="item"><span class="feature">Suggestion Delay</span><span class="desc">Response timing</span></li>
+                    <li class="item"><span class="feature">Public Code</span><span class="desc">Allow matching</span></li>
+                    <li class="item"><span class="feature">Telemetry</span><span class="desc">Data collection</span></li>
+                    <li class="item"><span class="feature">Proxy Settings</span><span class="desc">Corporate networks</span></li>
+                    <li class="item"><span class="feature">Ignore Files</span><span class="desc">Exclude patterns</span></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Development Flow -->
+        <div class="flow">
+            <div class="flow-step">Write Comment</div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-step">Get Suggestion</div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-step">Review Code</div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-step">Accept/Modify</div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-step">Test & Iterate</div>
+        </div>
+
+        <!-- Three Column Section -->
+        <div class="three-col">
+            <!-- IDE Support -->
+            <div class="compact-section">
+                <h3 data-icon="setup">IDE Support</h3>
+                <div class="ide-grid">
+                    <div class="ide-item">VS Code</div>
+                    <div class="ide-item">JetBrains</div>
+                    <div class="ide-item">Neovim</div>
+                    <div class="ide-item">Azure Data Studio</div>
+                </div>
+            </div>
+
+            <!-- Languages -->
+            <div class="compact-section">
+                <h3 data-icon="languages">Top Languages</h3>
+                <div class="grid-items">
+                    <div class="grid-item">
+                        <div class="title">Python</div>
+                        <span class="feature">Django</span>
+                        <span class="feature">FastAPI</span>
+                    </div>
+                    <div class="grid-item">
+                        <div class="title">JavaScript</div>
+                        <span class="feature">React</span>
+                        <span class="feature">Node.js</span>
+                    </div>
+                    <div class="grid-item">
+                        <div class="title">Java</div>
+                        <span class="feature">Spring</span>
+                        <span class="feature">Maven</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Models -->
+            <div class="compact-section">
+                <h3 data-icon="models">AI Models</h3>
+                <table class="table">
+                    <tr><th>Model</th><th>Use Case</th></tr>
+                    <tr><td><span class="code">GPT-4</span></td><td>Code completion</td></tr>
+                    <tr><td><span class="code">Codex</span></td><td>Code generation</td></tr>
+                    <tr><td><span class="code">GPT-3.5</span></td><td>Chat responses</td></tr>
+                </table>
+            </div>
+        </div>
+
+        <!-- Two Column Section -->
+        <div class="two-col">
+            <div class="compact-section">
+                <h3 data-icon="code">Code Generation Tips</h3>
+                <table class="table">
+                    <tr><th>Technique</th><th>Example</th><th>Result</th></tr>
+                    <tr><td><span class="code">Comment-driven</span></td><td># Create REST API</td><td>Full function</td></tr>
+                    <tr><td><span class="code">Function signature</span></td><td>def sort_array(arr):</td><td>Implementation</td></tr>
+                    <tr><td><span class="code">Context clues</span></td><td>Import statements</td><td>Relevant code</td></tr>
+                    <tr><td><span class="code">Test-driven</span></td><td>Write test first</td><td>Passing code</td></tr>
+                </table>
+            </div>
+
+            <div class="compact-section">
+                <h3 data-icon="chat">Chat Best Practices</h3>
+                <table class="table">
+                    <tr><th>Do</th><th>Don't</th></tr>
+                    <tr><td><span class="code">Be specific</span></td><td>Vague requests</td></tr>
+                    <tr><td><span class="code">Provide context</span></td><td>Isolated questions</td></tr>
+                    <tr><td><span class="code">Ask follow-ups</span></td><td>Accept first answer</td></tr>
+                    <tr><td><span class="code">Review suggestions</span></td><td>Blindly accept</td></tr>
+                </table>
+            </div>
+        </div>
+
+        <!-- Quick Reference -->
+        <div class="ref-grid">
+            <div class="ref-item">
+                <span class="key">🤖 AI</span>
+                <div class="val">Artificial Intelligence</div>
+            </div>
+            <div class="ref-item">
+                <span class="key">🧠 LLM</span>
+                <div class="val">Large Language Model</div>
+            </div>
+            <div class="ref-item">
+                <span class="key">💻 IDE</span>
+                <div class="val">Integrated Development Environment</div>
+            </div>
+            <div class="ref-item">
+                <span class="key">🔧 API</span>
+                <div class="val">Application Programming Interface</div>
+            </div>
+            <div class="ref-item">
+                <span class="key">📝 TDD</span>
+                <div class="val">Test-Driven Development</div>
+            </div>
+            <div class="ref-item">
+                <span class="key">🔍 PR</span>
+                <div class="val">Pull Request</div>
+            </div>
+        </div>
+
+        <!-- Status and Features -->
+        <div class="two-col">
+            <div class="compact-section">
+                <h3 data-icon="debug">Troubleshooting</h3>
+                <div class="center-text">
+                    <span class="status status-success">✅ Connected</span>
+                    <span class="status status-warning">⚠️ Rate Limited</span>
+                    <span class="status status-error">❌ Offline</span>
+                </div>
+                <div class="small-text">
+                    <span class="copilot-icon">🔌</span>• Check internet connection<br>
+                    <span class="copilot-icon">🔑</span>• Verify GitHub login<br>
+                    <span class="copilot-icon">💳</span>• Confirm subscription active<br>
+                    <span class="copilot-icon">🔄</span>• Restart IDE if needed
+                </div>
+            </div>
+
+            <div class="compact-section">
+                <h3 data-icon="settings">Advanced Settings</h3>
+                <div class="small-text">
+                    <span class="copilot-icon">⚙️</span>• Configure per-language settings<br>
+                    <span class="copilot-icon">📁</span>• Set workspace-specific rules<br>
+                    <span class="copilot-icon">🚫</span>• Block public code suggestions<br>
+                    <span class="copilot-icon">📊</span>• Monitor usage analytics
+                </div>
+            </div>
+        </div>
+
+        <!-- Critical Information -->
+        <div class="tips">
+            <strong>💡 Pro Tips:</strong> Use descriptive comments • Break complex tasks into steps • Leverage context from open files • Test generated code thoroughly • Combine with manual coding • Keep security in mind
+        </div>
+
+        <div class="warning">
+            <strong>⚠️ Limitations:</strong> Not always accurate • May suggest deprecated code • Context window limits • Doesn't replace testing • Review security implications • Cannot access external APIs
+        </div>
+
+        <!-- Subscription & Access -->
+        <div class="compact-section">
+            <h3 data-icon="setup">Subscription Plans</h3>
+            <table class="table">
+                <tr><th>Plan</th><th>Price</th><th>Features</th><th>Best For</th></tr>
+                <tr><td><span class="code"><span class="copilot-icon">👤</span>Individual</span></td><td>$10/month</td><td>Basic AI assistance</td><td>Solo developers</td></tr>
+                <tr><td><span class="code"><span class="copilot-icon">🏢</span>Business</span></td><td>$19/month</td><td>Enhanced security</td><td>Teams & companies</td></tr>
+                <tr><td><span class="code"><span class="copilot-icon">🎓</span>Student</span></td><td>Free</td><td>Full access</td><td>Verified students</td></tr>
+                <tr><td><span class="code"><span class="copilot-icon">🌟</span>Enterprise</span></td><td>Custom</td><td>Advanced admin</td><td>Large organizations</td></tr>
+            </table>
+        </div>
+
+        <!-- Footer -->
+        <div class="info">
+            <strong><span class="copilot-icon">🌐</span>Access:</strong> github.com/features/copilot • marketplace extensions • copilot.github.com | <strong><span class="copilot-icon">📚</span>Docs:</strong> docs.github.com/copilot
+        </div>
+    </div>
+</body>
+</html>
