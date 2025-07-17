@@ -2,10 +2,17 @@
 
 ## Core Principles
 
+###
+- Research the web about the topic/technology, gather all the information you can find
+- Identify the color themes of the topic/technology
+- Gather relevant images and icons for the topic/technology
+- Do not limit yourself to the existing design and patterns, instead come up with your own design idea to structure the cheatsheet
+
 ### 1. Single A4 Page Maximum
 - **Everything must fit on one standard A4 page (210mm × 297mm)**
 - Optimize for print and PDF export
 - Use compact layouts and efficient spacing
+- Use the same color/themes/css while printing the page
 
 ### 2. Information Density
 - **Maximize useful information per square inch**

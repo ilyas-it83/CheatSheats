@@ -11,15 +11,21 @@
             box-sizing: border-box;
         }
 
+        html {
+            background: #1a202c;
+            min-height: 100vh;
+        }
+
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            font-size: 10px;
-            line-height: 1.3;
+            font-size: 8px;
+            line-height: 1.1;
             color: #e2e8f0;
             background: #1a202c;
-            padding: 10px;
+            padding: 8px;
             max-width: 210mm;
             margin: 0 auto;
+            min-height: 100vh;
         }
 
         .container {
@@ -31,74 +37,94 @@
         .header {
             background: linear-gradient(135deg, #0078d4 0%, #106ebe 100%);
             color: white;
-            padding: 6px 10px;
+            padding: 4px 8px;
             text-align: center;
-            margin-bottom: 8px;
-            border-radius: 4px;
+            margin-bottom: 6px;
+            border-radius: 3px;
             position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
         }
 
         .header::before {
             content: "🤖";
             position: absolute;
-            left: 10px;
+            left: 8px;
             top: 50%;
             transform: translateY(-50%);
-            font-size: 18px;
+            font-size: 14px;
         }
 
         .header::after {
             content: "⚡";
             position: absolute;
-            right: 10px;
+            right: 8px;
             top: 50%;
             transform: translateY(-50%);
-            font-size: 14px;
+            font-size: 12px;
+        }
+
+        .copilot-logo {
+            width: 20px;
+            height: 20px;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:%2300b4d8;stop-opacity:1" /><stop offset="25%" style="stop-color:%230077be;stop-opacity:1" /><stop offset="50%" style="stop-color:%237209b7;stop-opacity:1" /><stop offset="75%" style="stop-color:%23ff006e;stop-opacity:1" /><stop offset="100%" style="stop-color:%23ffbe0b;stop-opacity:1" /></linearGradient><linearGradient id="grad2" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:%23fb8500;stop-opacity:1" /><stop offset="50%" style="stop-color:%23ff006e;stop-opacity:1" /><stop offset="100%" style="stop-color:%238338ec;stop-opacity:1" /></linearGradient></defs><path d="M20 30 Q30 20 45 25 Q60 30 65 45 Q70 60 55 65 Q40 70 35 55 Q30 40 20 30 Z" fill="url(%23grad1)" opacity="0.9"/><path d="M35 15 Q50 10 65 20 Q80 30 75 50 Q70 70 50 65 Q30 60 35 40 Q40 20 35 15 Z" fill="url(%23grad2)" opacity="0.8"/><ellipse cx="40" cy="40" rx="15" ry="20" fill="url(%23grad1)" opacity="0.7" transform="rotate(45 40 40)"/><ellipse cx="60" cy="35" rx="12" ry="18" fill="url(%23grad2)" opacity="0.6" transform="rotate(-30 60 35)"/></svg>') no-repeat center;
+            background-size: contain;
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        .header-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1px;
         }
 
         .header h1 {
-            font-size: 16px;
-            margin-bottom: 2px;
+            font-size: 12px;
+            margin-bottom: 1px;
         }
 
         .header h1::before {
             content: "🧠 ";
-            font-size: 14px;
+            font-size: 10px;
         }
 
         .header p {
-            font-size: 9px;
+            font-size: 7px;
             opacity: 0.9;
         }
 
         .main-grid {
             display: grid;
             grid-template-columns: 1fr 1fr 1fr 1fr;
-            gap: 6px;
-            margin-bottom: 8px;
+            gap: 3px;
+            margin-bottom: 4px;
         }
 
         .section {
             background: #2d3748;
             border: 1px solid #4a5568;
             border-radius: 3px;
-            padding: 6px;
+            padding: 4px;
         }
 
         .section h2 {
-            font-size: 10px;
+            font-size: 9px;
             color: white;
-            margin-bottom: 4px;
+            margin-bottom: 3px;
             background: #0078d4;
-            padding: 2px 4px;
+            padding: 1px 3px;
             border-radius: 2px;
             text-align: center;
             position: relative;
         }
 
         .section h2::before {
-            margin-right: 4px;
-            font-size: 10px;
+            margin-right: 3px;
+            font-size: 8px;
         }
 
         .section:nth-child(1) h2::before { content: "🎯"; }
@@ -111,19 +137,19 @@
         }
 
         .item {
-            margin-bottom: 2px;
-            font-size: 8px;
+            margin-bottom: 1px;
+            font-size: 7px;
         }
 
         .feature {
             font-family: 'SF Mono', Monaco, monospace;
             background: #4a5568;
             color: #81c784;
-            padding: 1px 3px;
+            padding: 1px 2px;
             border-radius: 2px;
             display: inline-block;
             margin-bottom: 1px;
-            font-size: 7px;
+            font-size: 6px;
             position: relative;
         }
 
@@ -131,49 +157,49 @@
             content: "▶";
             color: #0078d4;
             margin-right: 2px;
-            font-size: 6px;
+            font-size: 5px;
         }
 
         .microsoft-logo {
             display: inline-block;
-            width: 12px;
-            height: 12px;
+            width: 10px;
+            height: 10px;
             background: linear-gradient(45deg, #f25022 25%, #7fba00 25% 50%, #00a4ef 50% 75%, #ffb900 75%);
-            margin-right: 4px;
+            margin-right: 3px;
             vertical-align: middle;
         }
 
         .copilot-icon {
-            font-size: 12px;
+            font-size: 10px;
             color: #0078d4;
             margin-right: 2px;
         }
 
         .desc {
             color: #a0aec0;
-            font-size: 7px;
+            font-size: 6px;
             margin-left: 2px;
         }
 
         .table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 7px;
-            margin-bottom: 4px;
+            font-size: 6px;
+            margin-bottom: 3px;
         }
 
         .table th {
             background: #4a5568;
             color: white;
-            padding: 2px 3px;
+            padding: 1px 2px;
             text-align: left;
             font-weight: 600;
             border-bottom: 1px solid #718096;
-            font-size: 7px;
+            font-size: 6px;
         }
 
         .table td {
-            padding: 1px 3px;
+            padding: 1px 2px;
             border-bottom: 1px solid #4a5568;
             vertical-align: top;
             background: #2d3748;
@@ -185,44 +211,44 @@
             color: #81c784;
             padding: 1px 2px;
             border-radius: 1px;
-            font-size: 7px;
+            font-size: 6px;
         }
 
         .two-col {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 6px;
-            margin-bottom: 6px;
+            gap: 4px;
+            margin-bottom: 4px;
         }
 
         .three-col {
             display: grid;
             grid-template-columns: 1fr 1fr 1fr;
-            gap: 4px;
-            margin-bottom: 6px;
+            gap: 3px;
+            margin-bottom: 4px;
         }
 
         .compact-section {
             background: #2d3748;
             border: 1px solid #4a5568;
             border-radius: 3px;
-            padding: 4px;
-            margin-bottom: 4px;
+            padding: 3px;
+            margin-bottom: 3px;
         }
 
         .compact-section h3 {
-            font-size: 9px;
+            font-size: 8px;
             color: #e2e8f0;
-            margin-bottom: 3px;
+            margin-bottom: 2px;
             font-weight: 600;
             position: relative;
-            padding-left: 16px;
+            padding-left: 14px;
         }
 
         .compact-section h3::before {
             position: absolute;
             left: 0;
-            font-size: 10px;
+            font-size: 8px;
         }
 
         /* Microsoft-specific icons for different sections */
@@ -240,36 +266,36 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin: 4px 0;
-            padding: 3px;
+            margin: 2px 0;
+            padding: 2px;
             background: #4a5568;
             border-radius: 3px;
-            font-size: 7px;
+            font-size: 6px;
             position: relative;
         }
 
         .flow::before {
             content: "🚀";
             position: absolute;
-            left: -15px;
+            left: -12px;
             top: 50%;
             transform: translateY(-50%);
-            font-size: 12px;
+            font-size: 10px;
         }
 
         .flow::after {
             content: "🎯";
             position: absolute;
-            right: -15px;
+            right: -12px;
             top: 50%;
             transform: translateY(-50%);
-            font-size: 12px;
+            font-size: 10px;
         }
 
         .flow-step {
             background: #0078d4;
             color: white;
-            padding: 2px 4px;
+            padding: 1px 3px;
             border-radius: 2px;
             font-size: 6px;
             position: relative;
@@ -277,27 +303,27 @@
 
         .flow-step::before {
             content: "🔧";
-            margin-right: 2px;
-            font-size: 8px;
+            margin-right: 1px;
+            font-size: 6px;
         }
 
         .flow-arrow {
             color: #a0aec0;
-            font-size: 8px;
+            font-size: 6px;
         }
 
         .grid-items {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
-            gap: 3px;
-            margin: 4px 0;
+            grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
+            gap: 2px;
+            margin: 2px 0;
         }
 
         .grid-item {
             background: #4a5568;
             border: 1px solid #718096;
             border-radius: 2px;
-            padding: 3px;
+            padding: 2px;
             text-align: center;
             font-size: 6px;
         }
@@ -306,20 +332,20 @@
             font-weight: 600;
             color: #e2e8f0;
             margin-bottom: 1px;
-            font-size: 7px;
+            font-size: 6px;
         }
 
         .grid-item .feature {
-            font-size: 6px;
+            font-size: 5px;
             padding: 1px 2px;
             margin-bottom: 1px;
         }
 
         .status {
             display: inline-block;
-            padding: 1px 3px;
+            padding: 1px 2px;
             border-radius: 2px;
-            font-size: 6px;
+            font-size: 5px;
             font-weight: 500;
             margin: 1px;
         }
@@ -332,27 +358,27 @@
         .tips {
             background: #2c5530;
             border-left: 3px solid #38a169;
-            padding: 4px 6px;
-            margin: 4px 0;
-            font-size: 7px;
+            padding: 3px 4px;
+            margin: 2px 0;
+            font-size: 6px;
             color: #c6f6d5;
         }
 
         .warning {
             background: #744210;
             border-left: 3px solid #d69e2e;
-            padding: 4px 6px;
-            margin: 4px 0;
-            font-size: 7px;
+            padding: 3px 4px;
+            margin: 2px 0;
+            font-size: 6px;
             color: #faf089;
         }
 
         .info {
             background: #2c5282;
             border-left: 3px solid #3182ce;
-            padding: 4px 6px;
-            margin: 4px 0;
-            font-size: 7px;
+            padding: 3px 4px;
+            margin: 2px 0;
+            font-size: 6px;
             color: #bee3f8;
         }
 
@@ -360,7 +386,7 @@
             display: grid;
             grid-template-columns: repeat(5, 1fr);
             gap: 2px;
-            margin: 4px 0;
+            margin: 2px 0;
         }
 
         .channel-item {
@@ -369,7 +395,7 @@
             border-radius: 2px;
             padding: 2px;
             text-align: center;
-            font-size: 6px;
+            font-size: 5px;
             color: white;
         }
 
@@ -414,60 +440,345 @@
             color: #a0aec0;
         }
 
-        /* Print Optimization */
+        /* Print Optimization - Enhanced for PDF */
         @media print {
+            @page {
+                size: A4;
+                margin: 0;
+                padding: 0;
+            }
+            
+            * {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+            
+            html {
+                background: #1a202c !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+                width: 100% !important;
+                height: 100% !important;
+                margin: 0 !important;
+                padding: 0 !important;
+            }
+            
             body {
-                font-size: 8px;
-                padding: 8px;
-                background: white !important;
-                color: black !important;
+                font-size: 10px !important;
+                padding: 5mm !important;
+                margin: 0 !important;
+                background: #1a202c !important;
+                color: #e2e8f0 !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+                width: 100% !important;
+                max-width: 100% !important;
+                min-width: 100% !important;
+                min-height: 100vh !important;
+                box-sizing: border-box !important;
+                transform: none !important;
+                zoom: 1 !important;
+            }
+            
+            .container {
+                width: 100% !important;
+                max-width: 100% !important;
+                min-width: 100% !important;
+                padding: 0 !important;
+                margin: 0 !important;
+                background: #1a202c !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+                box-sizing: border-box !important;
             }
             
             .header {
-                background: #0078d4 !important;
+                background: linear-gradient(135deg, #0078d4 0%, #106ebe 100%) !important;
                 color: white !important;
-                -webkit-print-color-adjust: exact;
-                print-color-adjust: exact;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+                width: 100% !important;
+                box-sizing: border-box !important;
+            }
+
+            .copilot-logo {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
             }
             
             .section, .compact-section {
-                background: #f8f9fa !important;
-                border: 1px solid #dee2e6 !important;
-                color: black !important;
+                background: #2d3748 !important;
+                border: 1px solid #4a5568 !important;
+                color: #e2e8f0 !important;
                 page-break-inside: avoid;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+                width: 100% !important;
+                box-sizing: border-box !important;
             }
             
             .section h2 {
                 background: #0078d4 !important;
                 color: white !important;
-                -webkit-print-color-adjust: exact;
-                print-color-adjust: exact;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
             }
             
             .feature, .table .code, .ref-item .key {
-                background: #f8f9fa !important;
-                color: black !important;
-                border: 1px solid #dee2e6 !important;
+                background: #4a5568 !important;
+                color: #81c784 !important;
+                border: 1px solid #718096 !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+
+            .table {
+                width: 100% !important;
+                table-layout: fixed !important;
+                border-collapse: collapse !important;
             }
 
             .table th {
-                background: #e9ecef !important;
-                color: black !important;
+                background: #4a5568 !important;
+                color: white !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
             }
 
             .table td {
-                background: white !important;
-                color: black !important;
+                background: #2d3748 !important;
+                color: #e2e8f0 !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+                word-wrap: break-word !important;
             }
 
-            .tips, .warning, .info {
-                color: black !important;
+            .tips {
+                background: #2c5530 !important;
+                color: #c6f6d5 !important;
+                border-left: 3px solid #38a169 !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+                width: 100% !important;
+                box-sizing: border-box !important;
+            }
+
+            .warning {
+                background: #744210 !important;
+                color: #faf089 !important;
+                border-left: 3px solid #d69e2e !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+                width: 100% !important;
+                box-sizing: border-box !important;
+            }
+
+            .info {
+                background: #2c5282 !important;
+                color: #bee3f8 !important;
+                border-left: 3px solid #3182ce !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+                width: 100% !important;
+                box-sizing: border-box !important;
             }
 
             .status {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+
+            .status-success { 
+                background: #38a169 !important; 
+                color: white !important; 
+            }
+            
+            .status-warning { 
+                background: #d69e2e !important; 
+                color: white !important; 
+            }
+            
+            .status-info { 
+                background: #3182ce !important; 
+                color: white !important; 
+            }
+            
+            .status-error { 
+                background: #e53e3e !important; 
+                color: white !important; 
+            }
+
+            .flow {
+                background: #4a5568 !important;
+                color: #e2e8f0 !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+                width: 100% !important;
+                box-sizing: border-box !important;
+            }
+
+            .flow-step {
+                background: #0078d4 !important;
                 color: white !important;
-                -webkit-print-color-adjust: exact;
-                print-color-adjust: exact;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+
+            .grid-item {
+                background: #4a5568 !important;
+                color: #e2e8f0 !important;
+                border: 1px solid #718096 !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+                box-sizing: border-box !important;
+            }
+
+            .channel-item {
+                background: #553c9a !important;
+                color: white !important;
+                border: 1px solid #6b46c1 !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+                box-sizing: border-box !important;
+            }
+
+            .ref-item {
+                background: #4a5568 !important;
+                color: #e2e8f0 !important;
+                border: 1px solid #718096 !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+                box-sizing: border-box !important;
+            }
+
+            .microsoft-logo {
+                background: linear-gradient(45deg, #f25022 25%, #7fba00 25% 50%, #00a4ef 50% 75%, #ffb900 75%) !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+
+            .desc {
+                color: #a0aec0 !important;
+            }
+
+            .small-text {
+                color: #a0aec0 !important;
+            }
+
+            .ref-item .val {
+                color: #a0aec0 !important;
+            }
+
+            .flow-arrow {
+                color: #a0aec0 !important;
+            }
+
+            .copilot-icon {
+                color: #0078d4 !important;
+            }
+
+            /* Ensure all grids maintain their layout and full width */
+            .main-grid {
+                display: grid !important;
+                grid-template-columns: 1fr 1fr 1fr 1fr !important;
+                gap: 6px !important;
+                width: 100% !important;
+                box-sizing: border-box !important;
+            }
+
+            .two-col {
+                display: grid !important;
+                grid-template-columns: 1fr 1fr !important;
+                gap: 6px !important;
+                width: 100% !important;
+                box-sizing: border-box !important;
+            }
+
+            .three-col {
+                display: grid !important;
+                grid-template-columns: 1fr 1fr 1fr !important;
+                gap: 4px !important;
+                width: 100% !important;
+                box-sizing: border-box !important;
+            }
+
+            .ref-grid {
+                display: grid !important;
+                grid-template-columns: repeat(6, 1fr) !important;
+                gap: 2px !important;
+                width: 100% !important;
+                box-sizing: border-box !important;
+            }
+
+            .grid-items {
+                display: grid !important;
+                grid-template-columns: repeat(auto-fit, minmax(80px, 1fr)) !important;
+                gap: 3px !important;
+                width: 100% !important;
+                box-sizing: border-box !important;
+            }
+
+            /* Ensure emojis and icons are preserved */
+            .header::before,
+            .header::after,
+            .header h1::before,
+            .section h2::before,
+            .feature::before,
+            .compact-section h3::before,
+            .flow::before,
+            .flow::after,
+            .flow-step::before {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+
+            /* Force 100% width for all elements */
+            * {
+                font-size: inherit !important;
+                line-height: inherit !important;
+                max-width: 100% !important;
+                box-sizing: border-box !important;
+            }
+
+            /* Remove any transforms or scaling */
+            html, body, .container {
+                transform: none !important;
+                zoom: 1 !important;
+                scale: 1 !important;
+            }
+
+            /* Additional background enforcement */
+            body::before {
+                content: "";
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100vw;
+                height: 100vh;
+                background: #1a202c !important;
+                z-index: -1;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+
+            /* Ensure no page breaks in critical sections */
+            .header, .tips, .warning, .info {
+                page-break-inside: avoid !important;
+            }
+
+            /* Optimize for full width printing */
+            @media print and (orientation: portrait) {
+                body {
+                    width: 210mm !important;
+                    max-width: 210mm !important;
+                }
+            }
+
+            @media print and (orientation: landscape) {
+                body {
+                    width: 297mm !important;
+                    max-width: 297mm !important;
+                }
             }
         }
     </style>
@@ -475,8 +786,11 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>Microsoft Copilot Studio Cheatsheet</h1>
-            <p><span class="microsoft-logo"></span>Essential AI agent development reference for developers and business users</p>
+            <div class="copilot-logo"></div>
+            <div class="header-content">
+                <h1>Microsoft Copilot Studio Cheatsheet</h1>
+                <p><span class="microsoft-logo"></span>Essential AI agent development reference for developers and business users</p>
+            </div>
         </div>
 
         <!-- Main 4-Column Grid -->
@@ -621,36 +935,90 @@
             </div>
         </div>
 
-        <!-- Quick Reference -->
-        <div class="ref-grid">
-            <div class="ref-item">
-                <span class="key">🧠 NLU</span>
-                <div class="val">Natural Language Understanding</div>
+        <!-- Variables & Data Types -->
+        <div class="three-col">
+            <div class="compact-section">
+                <h3 data-icon="config">Variable Types & Scope</h3>
+                <table class="table">
+                    <tr><th>Type</th><th>Scope</th><th>Example</th></tr>
+                    <tr><td><span class="code">Global</span></td><td>Entire session</td><td>User.Name</td></tr>
+                    <tr><td><span class="code">Topic</span></td><td>Current topic</td><td>Var.ProductID</td></tr>
+                    <tr><td><span class="code">System</span></td><td>Built-in values</td><td>System.User.DisplayName</td></tr>
+                    <tr><td><span class="code">Environment</span></td><td>Agent settings</td><td>Environment.Region</td></tr>
+                </table>
             </div>
-            <div class="ref-item">
-                <span class="key">🤖 GPT</span>
-                <div class="val">Generative AI</div>
+
+            <div class="compact-section">
+                <h3 data-icon="config">Common Expressions</h3>
+                <table class="table">
+                    <tr><th>Expression</th><th>Purpose</th></tr>
+                    <tr><td><span class="code">Text()</span></td><td>Convert to string</td></tr>
+                    <tr><td><span class="code">If()</span></td><td>Conditional logic</td></tr>
+                    <tr><td><span class="code">IsBlank()</span></td><td>Check empty values</td></tr>
+                    <tr><td><span class="code">Concatenate()</span></td><td>Join strings</td></tr>
+                    <tr><td><span class="code">Upper()</span></td><td>Convert to uppercase</td></tr>
+                </table>
             </div>
-            <div class="ref-item">
-                <span class="key">📝 YAML</span>
-                <div class="val">Topic code format</div>
-            </div>
-            <div class="ref-item">
-                <span class="key">🔐 SSO</span>
-                <div class="val">Single Sign-On</div>
-            </div>
-            <div class="ref-item">
-                <span class="key">🔗 API</span>
-                <div class="val">External integration</div>
-            </div>
-            <div class="ref-item">
-                <span class="key">😊 CSAT</span>
-                <div class="val">Customer Satisfaction</div>
+
+            <div class="compact-section">
+                <h3 data-icon="connectors">API Integration</h3>
+                <table class="table">
+                    <tr><th>Method</th><th>Purpose</th></tr>
+                    <tr><td><span class="code">GET</span></td><td>Retrieve data</td></tr>
+                    <tr><td><span class="code">POST</span></td><td>Create/submit</td></tr>
+                    <tr><td><span class="code">PUT</span></td><td>Update data</td></tr>
+                    <tr><td><span class="code">DELETE</span></td><td>Remove data</td></tr>
+                </table>
+                <div class="small-text">
+                    <span class="copilot-icon">🔐</span>Auth: Bearer Token, API Key, OAuth<br>
+                    <span class="copilot-icon">📝</span>Response: JSON Parse, Error Handling
+                </div>
             </div>
         </div>
 
-        <!-- Status Indicators -->
-        <div class="two-col">
+        <!-- Keyboard Shortcuts & Reference -->
+        <div class="three-col">
+            <div class="compact-section">
+                <h3 data-icon="config">Keyboard Shortcuts</h3>
+                <table class="table">
+                    <tr><th>Action</th><th>Shortcut</th></tr>
+                    <tr><td><span class="code">Save Topic</span></td><td>Ctrl + S</td></tr>
+                    <tr><td><span class="code">Test Agent</span></td><td>Ctrl + T</td></tr>
+                    <tr><td><span class="code">Add Node</span></td><td>Ctrl + N</td></tr>
+                    <tr><td><span class="code">Delete Node</span></td><td>Delete</td></tr>
+                    <tr><td><span class="code">Copy Node</span></td><td>Ctrl + C</td></tr>
+                    <tr><td><span class="code">Paste Node</span></td><td>Ctrl + V</td></tr>
+                </table>
+            </div>
+
+            <div class="compact-section">
+                <h3 data-icon="config">Quick Reference</h3>
+                <table class="table">
+                    <tr><th>Term</th><th>Definition</th></tr>
+                    <tr><td><span class="code">🧠 NLU</span></td><td>Natural Language Understanding</td></tr>
+                    <tr><td><span class="code">🤖 GPT</span></td><td>Generative AI</td></tr>
+                    <tr><td><span class="code">📝 YAML</span></td><td>Topic code format</td></tr>
+                    <tr><td><span class="code">🔐 SSO</span></td><td>Single Sign-On</td></tr>
+                    <tr><td><span class="code">🔗 API</span></td><td>External integration</td></tr>
+                    <tr><td><span class="code">😊 CSAT</span></td><td>Customer Satisfaction</td></tr>
+                </table>
+            </div>
+
+            <div class="compact-section">
+                <h3 data-icon="access">Useful Resources</h3>
+                <div class="small-text">
+                    <span class="copilot-icon">📚</span>• Microsoft Learn Documentation<br>
+                    <span class="copilot-icon">👥</span>• Community Forums<br>
+                    <span class="copilot-icon">🎥</span>• Video Tutorials<br>
+                    <span class="copilot-icon">📖</span>• Power Platform Blog<br>
+                    <span class="copilot-icon">🛠️</span>• Sample Templates<br>
+                    <span class="copilot-icon">💡</span>• Best Practice Guides
+                </div>
+            </div>
+        </div>
+
+        <!-- Status & Best Practices -->
+        <div class="main-grid">
             <div class="compact-section">
                 <h3 data-icon="states">Agent States</h3>
                 <div class="center-text">
@@ -658,26 +1026,98 @@
                     <span class="status status-warning">⚠️ Draft</span>
                     <span class="status status-error">❌ Failed</span>
                 </div>
+                <div class="small-text">
+                    <span class="copilot-icon">🎯</span>• Use 5-10 trigger phrases<br>
+                    <span class="copilot-icon">🔄</span>• Test frequently<br>
+                    <span class="copilot-icon">🤖</span>• Enable generative answers
+                </div>
             </div>
 
             <div class="compact-section">
-                <h3 data-icon="practices">Best Practices</h3>
+                <h3 data-icon="practices">Deployment Checklist</h3>
                 <div class="small-text">
-                    <span class="copilot-icon">🎯</span>• Use 5-10 trigger phrases per topic<br>
-                    <span class="copilot-icon">🔄</span>• Test frequently during development<br>
-                    <span class="copilot-icon">🤖</span>• Enable generative answers for flexibility<br>
-                    <span class="copilot-icon">📈</span>• Plan clear escalation paths
+                    <span class="copilot-icon">✅</span>• Test all conversation paths<br>
+                    <span class="copilot-icon">🔐</span>• Verify authentication flows<br>
+                    <span class="copilot-icon">📊</span>• Configure analytics tracking<br>
+                    <span class="copilot-icon">🔧</span>• Set up monitoring alerts<br>
+                    <span class="copilot-icon">📚</span>• Document known limitations<br>
+                    <span class="copilot-icon">�</span>• Plan rollback strategy
                 </div>
+            </div>
+
+            <div class="compact-section">
+                <h3 data-icon="auth">Security Considerations</h3>
+                <div class="small-text">
+                    <span class="copilot-icon">🔐</span>• Implement proper access controls<br>
+                    <span class="copilot-icon">🛡️</span>• Validate all user inputs<br>
+                    <span class="copilot-icon">🔒</span>• Encrypt sensitive data<br>
+                    <span class="copilot-icon">📋</span>• Follow compliance requirements<br>
+                    <span class="copilot-icon">🔍</span>• Audit conversation logs<br>
+                    <span class="copilot-icon">⚠️</span>• Handle PII data carefully
+                </div>
+            </div>
+
+            <div class="compact-section">
+                <h3 data-icon="metrics">Performance Tips</h3>
+                <div class="small-text">
+                    <span class="copilot-icon">⚡</span>• Cache frequently used data<br>
+                    <span class="copilot-icon">�</span>• Batch API requests<br>
+                    <span class="copilot-icon">🧹</span>• Clear unused variables<br>
+                    <span class="copilot-icon">🎯</span>• Regular model retraining<br>
+                    <span class="copilot-icon">📈</span>• Implement load balancing<br>
+                    <span class="copilot-icon">🔍</span>• Monitor response times
+                </div>
+            </div>
+        </div>
+
+        <!-- Advanced Features -->
+        <div class="three-col">
+            <div class="compact-section">
+                <h3 data-icon="config">Advanced Authoring</h3>
+                <table class="table">
+                    <tr><th>Feature</th><th>Use Case</th></tr>
+                    <tr><td><span class="code">Slot Filling</span></td><td>Multi-turn data collection</td></tr>
+                    <tr><td><span class="code">Interruptions</span></td><td>Context switching</td></tr>
+                    <tr><td><span class="code">Composer</span></td><td>Complex conversation flows</td></tr>
+                    <tr><td><span class="code">Skills</span></td><td>Reusable components</td></tr>
+                </table>
+            </div>
+
+            <div class="compact-section">
+                <h3 data-icon="config">Common Issues & Solutions</h3>
+                <table class="table">
+                    <tr><th>Problem</th><th>Cause</th><th>Solution</th></tr>
+                    <tr><td><span class="code">Topic not triggered</span></td><td>Poor trigger phrases</td><td>Add more variations & synonyms</td></tr>
+                    <tr><td><span class="code">Variables not saving</span></td><td>Wrong scope/type</td><td>Check variable initialization</td></tr>
+                    <tr><td><span class="code">Connector timeout</span></td><td>Long API response</td><td>Implement retry logic</td></tr>
+                    <tr><td><span class="code">Authentication failed</span></td><td>Token expired</td><td>Refresh OAuth tokens</td></tr>
+                    <tr><td><span class="code">Poor NLU performance</span></td><td>Insufficient training</td><td>Add more examples & test cases</td></tr>
+                </table>
+            </div>
+
+            <div class="compact-section">
+                <h3 data-icon="config">Testing & Debugging</h3>
+                <table class="table">
+                    <tr><th>Tool</th><th>Purpose</th></tr>
+                    <tr><td><span class="code">Test Canvas</span></td><td>Interactive testing</td></tr>
+                    <tr><td><span class="code">Analytics</span></td><td>Performance insights</td></tr>
+                    <tr><td><span class="code">Transcript</span></td><td>Conversation history</td></tr>
+                    <tr><td><span class="code">Error Logs</span></td><td>Debug failures</td></tr>
+                </table>
             </div>
         </div>
 
         <!-- Critical Information -->
         <div class="tips">
-            <strong>💡 Pro Tips:</strong> Start with system topics • Use slot filling for data collection • Monitor analytics regularly • Enable AI capabilities for better responses • Test across all target channels
+            <strong>💡 Pro Tips:</strong> Start with system topics • Use slot filling for data collection • Monitor analytics regularly • Enable AI capabilities for better responses • Test across all target channels • Implement proper error handling • Use meaningful variable names • Keep topics focused and concise
         </div>
 
         <div class="warning">
-            <strong>⚠️ Common Pitfalls:</strong> Too few trigger phrases • Missing fallback scenarios • Poor variable management • Inadequate testing • Ignoring user analytics
+            <strong>⚠️ Common Pitfalls:</strong> Too few trigger phrases • Missing fallback scenarios • Poor variable management • Inadequate testing • Ignoring user analytics • Overcomplicating conversation flows • Not handling interruptions • Forgetting to clear sensitive data
+        </div>
+
+        <div class="info">
+            <strong>🔧 Development Tips:</strong> Use version control for topics • Create reusable components • Implement proper logging • Plan for multilingual support • Design for accessibility • Consider mobile users • Optimize for performance • Follow naming conventions
         </div>
 
         <!-- Microsoft 365 Integration -->
