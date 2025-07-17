@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Azure VPN Cheatsheet</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-size: 10px;
+            line-height: 1.3;
+            color: #e2e8f0;
+            background: #1a202c;
+            padding: 10px;
+            max-width: 210mm;
+            margin: 0 auto;
+        }
+
+        .container {
+            max-width: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #0078d4 0%, #106ebe 100%);
+            color: white;
+            padding: 6px 10px;
+            text-align: center;
+            margin-bottom: 8px;
+            border-radius: 4px;
+            position: relative;
+        }
+
+        .header::before {
+            content: "🔗";
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 18px;
+        }
+
+        .header::after {
+            content: "🛡️";
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 14px;
+        }
+
+        .header h1 {
+            font-size: 16px;
+            margin-bottom: 2px;
+        }
+
+        .header h1::before {
+            content: "☁️ ";
+            font-size: 14px;
+        }
+
+        .header p {
+            font-size: 9px;
+            opacity: 0.9;
+        }
+
+        .main-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+            gap: 6px;
+            margin-bottom: 6px;
+        }
+
+        .bottom-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6px;
+            margin-bottom: 6px;
+        }
+
+        .section {
+            background: #2d3748;
+            border: 1px solid #4a5568;
+            border-radius: 3px;
+            padding: 6px;
+        }
+
+        .section h2 {
+            font-size: 10px;
+            color: white;
+            margin-bottom: 4px;
+            background: #0078d4;
+            padding: 2px 4px;
+            border-radius: 2px;
+            text-align: center;
+            position: relative;
+        }
+
+        .section h2::before {
+            margin-right: 4px;
+            font-size: 10px;
+        }
+
+        .section:nth-child(1) h2 { background: #0078d4; }
+        .section:nth-child(1) h2::before { content: "🏗️"; }
+        .section:nth-child(2) h2 { background: #106ebe; }
+        .section:nth-child(2) h2::before { content: "🔧"; }
+        .section:nth-child(3) h2 { background: #005a9e; }
+        .section:nth-child(3) h2::before { content: "👤"; }
+        .section:nth-child(4) h2 { background: #004578; }
+        .section:nth-child(4) h2::before { content: "🌐"; }
+
+        .bottom-grid .section:nth-child(1) h2 { background: #0078d4; }
+        .bottom-grid .section:nth-child(1) h2::before { content: "⚡"; }
+        .bottom-grid .section:nth-child(2) h2 { background: #106ebe; }
+        .bottom-grid .section:nth-child(2) h2::before { content: "🔍"; }
+
+        .item-list {
+            list-style: none;
+        }
+
+        .item {
+            margin-bottom: 2px;
+            font-size: 8px;
+        }
+
+        .command {
+            font-family: 'SF Mono', Monaco, monospace;
+            background: #4a5568;
+            color: #81c784;
+            padding: 1px 3px;
+            border-radius: 2px;
+            display: block;
+            margin-bottom: 1px;
+            font-size: 7px;
+            word-break: break-all;
+        }
+
+        .command::before {
+            content: "▶";
+            color: #0078d4;
+            margin-right: 2px;
+            font-size: 6px;
+        }
+
+        .sku {
+            font-family: 'SF Mono', Monaco, monospace;
+            background: #005a9e;
+            color: #ffffff;
+            padding: 1px 3px;
+            border-radius: 2px;
+            display: inline-block;
+            margin-bottom: 1px;
+            font-size: 7px;
+            font-weight: 600;
+        }
+
+        .price {
+            color: #f6ad55;
+            font-weight: 600;
+            font-size: 7px;
+        }
+
+        .warning {
+            color: #fed7aa;
+            background: #c05621;
+            padding: 1px 3px;
+            border-radius: 2px;
+            font-size: 7px;
+        }
+
+        .info {
+            color: #bee3f8;
+            background: #2b6cb0;
+            padding: 1px 3px;
+            border-radius: 2px;
+            font-size: 7px;
+        }
+
+        .success {
+            color: #c6f6d5;
+            background: #2f855a;
+            padding: 1px 3px;
+            border-radius: 2px;
+            font-size: 7px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 7px;
+            margin-top: 2px;
+        }
+
+        th, td {
+            padding: 2px 4px;
+            text-align: left;
+            border-bottom: 1px solid #4a5568;
+        }
+
+        th {
+            background: #4a5568;
+            color: white;
+            font-weight: 600;
+        }
+
+        tr:nth-child(even) {
+            background: #2d3748;
+        }
+
+        .footer {
+            background: #2d3748;
+            border: 1px solid #4a5568;
+            border-radius: 3px;
+            padding: 4px;
+            text-align: center;
+            font-size: 8px;
+            color: #a0aec0;
+        }
+
+        .footer::before {
+            content: "⚠️ ";
+            color: #f6ad55;
+        }
+
+        @media print {
+            body {
+                background: white;
+                color: black;
+                font-size: 9px;
+                padding: 5mm;
+                max-width: 200mm;
+            }
+            
+            .header {
+                background: #0078d4 !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            
+            .section {
+                background: #f7fafc !important;
+                border: 1px solid #e2e8f0 !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            
+            .section h2 {
+                background: #0078d4 !important;
+                color: white !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            
+            .command {
+                background: #f7fafc !important;
+                color: #2d3748 !important;
+                border: 1px solid #e2e8f0 !important;
+            }
+            
+            .sku {
+                background: #0078d4 !important;
+                color: white !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Azure VPN Gateway Cheatsheet</h1>
+            <p>Comprehensive guide for Azure Virtual Network Gateway configurations, commands, and best practices</p>
+        </div>
+
+        <div class="main-grid">
+            <div class="section">
+                <h2>Gateway Types & SKUs</h2>
+                <ul class="item-list">
+                    <li class="item"><strong>VPN Types:</strong></li>
+                    <li class="item"><span class="sku">RouteBased</span> - Dynamic routing</li>
+                    <li class="item"><span class="sku">PolicyBased</span> - Static routing</li>
+                    <li class="item"><strong>Performance SKUs:</strong></li>
+                    <li class="item"><span class="sku">Basic</span> <span class="price">$26.28/mo</span></li>
+                    <li class="item">100 Mbps, 10 tunnels</li>
+                    <li class="item"><span class="sku">VpnGw1</span> <span class="price">$136.43/mo</span></li>
+                    <li class="item">650 Mbps, 30 tunnels</li>
+                    <li class="item"><span class="sku">VpnGw2</span> <span class="price">$341.71/mo</span></li>
+                    <li class="item">1 Gbps, 30 tunnels</li>
+                    <li class="item"><span class="sku">VpnGw3</span> <span class="price">$1,365.75/mo</span></li>
+                    <li class="item">1.25 Gbps, 30 tunnels</li>
+                    <li class="item"><span class="warning">⚠️ Basic = Legacy, use VpnGw1+</span></li>
+                </ul>
+            </div>
+
+            <div class="section">
+                <h2>Azure CLI Commands</h2>
+                <ul class="item-list">
+                    <li class="item"><strong>Create VPN Gateway:</strong></li>
+                    <li class="item"><span class="command">az network vnet-gateway create --name MyVPNGW --public-ip-address MyGWIP --resource-group MyRG --vnet MyVNet --gateway-type Vpn --vpn-type RouteBased --sku VpnGw1</span></li>
+                    <li class="item"><strong>Create Local Gateway:</strong></li>
+                    <li class="item"><span class="command">az network local-gateway create --gateway-ip-address 23.99.221.164 --name LocalGW --resource-group MyRG --local-address-prefixes 10.101.0.0/24</span></li>
+                    <li class="item"><strong>Create Connection:</strong></li>
+                    <li class="item"><span class="command">az network vpn-connection create --name MyConnection --resource-group MyRG --vnet-gateway1 MyVPNGW --local-gateway2 LocalGW --location "East US" --shared-key abc123</span></li>
+                    <li class="item"><strong>List Connections:</strong></li>
+                    <li class="item"><span class="command">az network vpn-connection list --resource-group MyRG</span></li>
+                </ul>
+            </div>
+
+            <div class="section">
+                <h2>Point-to-Site VPN</h2>
+                <ul class="item-list">
+                    <li class="item"><strong>Address Pool:</strong></li>
+                    <li class="item">📍 172.16.201.0/24 (suggested)</li>
+                    <li class="item"><strong>Authentication Types:</strong></li>
+                    <li class="item"><span class="info">Certificate</span> - Self-signed/CA</li>
+                    <li class="item"><span class="info">Azure AD</span> - Enterprise auth</li>
+                    <li class="item"><span class="info">RADIUS</span> - Third-party</li>
+                    <li class="item"><strong>Protocols:</strong></li>
+                    <li class="item">🔒 OpenVPN (recommended)</li>
+                    <li class="item">🔒 IKEv2 (Windows native)</li>
+                    <li class="item">🔒 SSTP (Windows only)</li>
+                    <li class="item"><strong>Client Download:</strong></li>
+                    <li class="item"><span class="command">az network vnet-gateway vpn-client generate --resource-group MyRG --name MyVPNGW</span></li>
+                    <li class="item"><span class="success">✅ Max 128 concurrent connections</span></li>
+                </ul>
+            </div>
+
+            <div class="section">
+                <h2>Site-to-Site VPN</h2>
+                <ul class="item-list">
+                    <li class="item"><strong>Requirements:</strong></li>
+                    <li class="item">📡 Public IP on-premises device</li>
+                    <li class="item">🔧 BGP support (optional)</li>
+                    <li class="item">🔑 Shared key (PSK)</li>
+                    <li class="item"><strong>Supported Devices:</strong></li>
+                    <li class="item">• Cisco ASA, ISR, ASR</li>
+                    <li class="item">• Juniper SRX, SSG</li>
+                    <li class="item">• Fortinet FortiGate</li>
+                    <li class="item">• pfSense, VyOS</li>
+                    <li class="item"><strong>IPsec Parameters:</strong></li>
+                    <li class="item">IKEv1/IKEv2, AES256, SHA256</li>
+                    <li class="item">DH Group 14, PFS enabled</li>
+                    <li class="item"><span class="warning">⚠️ SA lifetime: 3600s</span></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="bottom-grid">
+            <div class="section">
+                <h2>PowerShell Commands</h2>
+                <ul class="item-list">
+                    <li class="item"><strong>Create VPN Gateway:</strong></li>
+                    <li class="item"><span class="command">New-AzVirtualNetworkGateway -Name MyVPNGW -ResourceGroupName MyRG -Location "East US" -IpConfigurations $gwipconfig -GatewayType Vpn -VpnType RouteBased -GatewaySku VpnGw1</span></li>
+                    <li class="item"><strong>Get Connection Status:</strong></li>
+                    <li class="item"><span class="command">Get-AzVirtualNetworkGatewayConnection -Name MyConnection -ResourceGroupName MyRG</span></li>
+                    <li class="item"><strong>Reset Gateway:</strong></li>
+                    <li class="item"><span class="command">Reset-AzVirtualNetworkGateway -VirtualNetworkGateway $gateway</span></li>
+                    <li class="item"><strong>Download Config:</strong></li>
+                    <li class="item"><span class="command">Get-AzVpnClientConfiguration -ResourceGroupName MyRG -Name MyVPNGW</span></li>
+                </ul>
+            </div>
+
+            <div class="section">
+                <h2>Troubleshooting & Monitoring</h2>
+                <ul class="item-list">
+                    <li class="item"><strong>Connection Issues:</strong></li>
+                    <li class="item">🔍 Check NSG rules on Gateway subnet</li>
+                    <li class="item">🔍 Verify UDR conflicts</li>
+                    <li class="item">🔍 Validate PSK on both sides</li>
+                    <li class="item">🔍 Check address space overlaps</li>
+                    <li class="item"><strong>Diagnostics:</strong></li>
+                    <li class="item"><span class="command">az network vnet-gateway list-bgp-peer-status --name MyVPNGW --resource-group MyRG</span></li>
+                    <li class="item"><strong>Metrics:</strong></li>
+                    <li class="item">📊 Gateway throughput</li>
+                    <li class="item">📊 Tunnel ingress/egress bytes</li>
+                    <li class="item">📊 BGP peer status</li>
+                    <li class="item"><span class="success">✅ Use Connection Monitor</span></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer">
+            Always use Gateway subnet (/27 or larger) • Enable BGP for redundancy • Use VpnGw1+ SKUs for production • Check Azure service health for VPN Gateway issues
+        </div>
+    </div>
+</body>
+</html>
