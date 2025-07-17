@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Docker Cheatsheet</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-size: 10px;
+            line-height: 1.2;
+            color: #2d3748;
+            background: white;
+            padding: 12px;
+        }
+
+        .container {
+            max-width: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2196f3 0%, #1976d2 100%);
+            color: white;
+            padding: 8px 12px;
+            text-align: center;
+            margin-bottom: 10px;
+            border-radius: 4px;
+        }
+
+        .header h1 {
+            font-size: 16px;
+            margin-bottom: 2px;
+        }
+
+        .header p {
+            font-size: 9px;
+            opacity: 0.9;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+
+        .section {
+            background: #f8f9fa;
+            border: 1px solid #e2e8f0;
+            border-radius: 4px;
+            padding: 8px;
+        }
+
+        .section h2 {
+            font-size: 11px;
+            color: white;
+            margin-bottom: 6px;
+            background: #2196f3;
+            padding: 3px 6px;
+            border-radius: 3px;
+            text-align: center;
+        }
+
+        .cmd-list {
+            list-style: none;
+        }
+
+        .cmd-item {
+            margin-bottom: 4px;
+            font-size: 8px;
+        }
+
+        .cmd {
+            font-family: 'SF Mono', Monaco, monospace;
+            background: #1a202c;
+            color: #81c784;
+            padding: 2px 4px;
+            border-radius: 2px;
+            display: block;
+            margin-bottom: 1px;
+        }
+
+        .desc {
+            color: #4a5568;
+            font-size: 7px;
+            margin-left: 4px;
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 8px;
+            margin-bottom: 6px;
+        }
+
+        .table th {
+            background: #f1f5f9;
+            padding: 3px 4px;
+            text-align: left;
+            font-weight: 600;
+            border-bottom: 1px solid #e2e8f0;
+            font-size: 7px;
+        }
+
+        .table td {
+            padding: 2px 4px;
+            border-bottom: 1px solid #e2e8f0;
+            vertical-align: top;
+        }
+
+        .table .code {
+            font-family: 'SF Mono', Monaco, monospace;
+            background: #edf2f7;
+            padding: 1px 2px;
+            border-radius: 2px;
+            font-size: 7px;
+        }
+
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6px;
+            margin-bottom: 8px;
+        }
+
+        .four-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+            gap: 4px;
+            margin-bottom: 8px;
+        }
+
+        .compact-section {
+            background: #f8f9fa;
+            border: 1px solid #e2e8f0;
+            border-radius: 3px;
+            padding: 6px;
+            margin-bottom: 6px;
+        }
+
+        .compact-section h3 {
+            font-size: 9px;
+            color: #2d3748;
+            margin-bottom: 4px;
+            font-weight: 600;
+        }
+
+        .mini-card {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 3px;
+            padding: 4px;
+            text-align: center;
+        }
+
+        .mini-card .title {
+            font-size: 7px;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 2px;
+        }
+
+        .mini-card .cmd {
+            font-size: 7px;
+            padding: 1px 2px;
+            margin-bottom: 1px;
+        }
+
+        .flow {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin: 6px 0;
+            padding: 4px;
+            background: #f1f5f9;
+            border-radius: 3px;
+            font-size: 7px;
+        }
+
+        .flow-step {
+            background: #2196f3;
+            color: white;
+            padding: 2px 4px;
+            border-radius: 2px;
+            font-size: 6px;
+        }
+
+        .flow-arrow {
+            color: #6b7280;
+            font-size: 8px;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 1px 3px;
+            border-radius: 2px;
+            font-size: 6px;
+            font-weight: 500;
+        }
+
+        .status-running { background: #d1fae5; color: #047857; }
+        .status-stopped { background: #fee2e2; color: #dc2626; }
+        .status-created { background: #dbeafe; color: #1d4ed8; }
+
+        .ref-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 3px;
+            margin: 6px 0;
+        }
+
+        .ref-item {
+            background: #f8f9fa;
+            border: 1px solid #e2e8f0;
+            border-radius: 2px;
+            padding: 3px;
+            text-align: center;
+            font-size: 6px;
+        }
+
+        .ref-item .key {
+            font-family: 'SF Mono', Monaco, monospace;
+            background: #1a202c;
+            color: #81c784;
+            padding: 1px 2px;
+            border-radius: 1px;
+            display: block;
+            margin-bottom: 1px;
+        }
+
+        .ref-item .val {
+            color: #4a5568;
+            font-size: 5px;
+        }
+
+        .tips {
+            background: #fef3cd;
+            border-left: 3px solid #fbbf24;
+            padding: 4px 6px;
+            margin: 6px 0;
+            font-size: 7px;
+            color: #92400e;
+        }
+
+        /* Print Optimization */
+        @media print {
+            body {
+                font-size: 8px;
+                padding: 8px;
+            }
+            
+            .header {
+                background: #2196f3 !important;
+                print-color-adjust: exact;
+            }
+            
+            .section {
+                page-break-inside: avoid;
+            }
+            
+            .cmd {
+                background: #f8f9fa !important;
+                color: #2d3748 !important;
+                border: 1px solid #e2e8f0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🐳 Docker Command Cheatsheet</h1>
+            <p>Essential Docker commands and concepts for containerization</p>
+        </div>
+
+        <!-- Main Grid Layout -->
+        <div class="grid">
+            <!-- Images Section -->
+            <div class="section">
+                <h2>Images</h2>
+                <ul class="cmd-list">
+                    <li class="cmd-item">
+                        <span class="cmd">docker images</span>
+                        <div class="desc">List all images</div>
+                    </li>
+                    <li class="cmd-item">
+                        <span class="cmd">docker pull nginx</span>
+                        <div class="desc">Download image</div>
+                    </li>
+                    <li class="cmd-item">
+                        <span class="cmd">docker build -t app .</span>
+                        <div class="desc">Build from Dockerfile</div>
+                    </li>
+                    <li class="cmd-item">
+                        <span class="cmd">docker rmi image_id</span>
+                        <div class="desc">Remove image</div>
+                    </li>
+                    <li class="cmd-item">
+                        <span class="cmd">docker tag app:latest app:v1</span>
+                        <div class="desc">Tag image</div>
+                    </li>
+                    <li class="cmd-item">
+                        <span class="cmd">docker history app</span>
+                        <div class="desc">Image layers</div>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Containers Section -->
+            <div class="section">
+                <h2>Containers</h2>
+                <ul class="cmd-list">
+                    <li class="cmd-item">
+                        <span class="cmd">docker ps</span>
+                        <div class="desc">Running containers</div>
+                    </li>
+                    <li class="cmd-item">
+                        <span class="cmd">docker ps -a</span>
+                        <div class="desc">All containers</div>
+                    </li>
+                    <li class="cmd-item">
+                        <span class="cmd">docker run -d -p 80:80 nginx</span>
+                        <div class="desc">Run detached with port</div>
+                    </li>
+                    <li class="cmd-item">
+                        <span class="cmd">docker stop container_id</span>
+                        <div class="desc">Stop container</div>
+                    </li>
+                    <li class="cmd-item">
+                        <span class="cmd">docker start container_id</span>
+                        <div class="desc">Start container</div>
+                    </li>
+                    <li class="cmd-item">
+                        <span class="cmd">docker rm container_id</span>
+                        <div class="desc">Remove container</div>
+                    </li>
+                    <li class="cmd-item">
+                        <span class="cmd">docker exec -it id bash</span>
+                        <div class="desc">Execute command</div>
+                    </li>
+                    <li class="cmd-item">
+                        <span class="cmd">docker logs container_id</span>
+                        <div class="desc">View logs</div>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Docker Compose Section -->
+            <div class="section">
+                <h2>Docker Compose</h2>
+                <ul class="cmd-list">
+                    <li class="cmd-item">
+                        <span class="cmd">docker-compose up -d</span>
+                        <div class="desc">Start services</div>
+                    </li>
+                    <li class="cmd-item">
+                        <span class="cmd">docker-compose down</span>
+                        <div class="desc">Stop services</div>
+                    </li>
+                    <li class="cmd-item">
+                        <span class="cmd">docker-compose ps</span>
+                        <div class="desc">List services</div>
+                    </li>
+                    <li class="cmd-item">
+                        <span class="cmd">docker-compose logs</span>
+                        <div class="desc">View logs</div>
+                    </li>
+                    <li class="cmd-item">
+                        <span class="cmd">docker-compose build</span>
+                        <div class="desc">Build services</div>
+                    </li>
+                    <li class="cmd-item">
+                        <span class="cmd">docker-compose exec web bash</span>
+                        <div class="desc">Execute in service</div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Docker Flow -->
+        <div class="flow">
+            <div class="flow-step">Write Dockerfile</div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-step">Build Image</div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-step">Run Container</div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-step">Deploy</div>
+        </div>
+
+        <!-- Two Column Layout -->
+        <div class="two-col">
+            <!-- Run Options -->
+            <div class="compact-section">
+                <h3>Run Options</h3>
+                <table class="table">
+                    <tr><th>Flag</th><th>Purpose</th><th>Example</th></tr>
+                    <tr><td><span class="code">-d</span></td><td>Detached</td><td><span class="code">-d</span></td></tr>
+                    <tr><td><span class="code">-p</span></td><td>Port map</td><td><span class="code">-p 8080:80</span></td></tr>
+                    <tr><td><span class="code">-v</span></td><td>Volume</td><td><span class="code">-v /host:/container</span></td></tr>
+                    <tr><td><span class="code">-e</span></td><td>Env var</td><td><span class="code">-e NODE_ENV=prod</span></td></tr>
+                    <tr><td><span class="code">--name</span></td><td>Name</td><td><span class="code">--name myapp</span></td></tr>
+                    <tr><td><span class="code">--rm</span></td><td>Auto remove</td><td><span class="code">--rm</span></td></tr>
+                </table>
+            </div>
+
+            <!-- Dockerfile Instructions -->
+            <div class="compact-section">
+                <h3>Dockerfile</h3>
+                <table class="table">
+                    <tr><th>Instruction</th><th>Purpose</th><th>Example</th></tr>
+                    <tr><td><span class="code">FROM</span></td><td>Base image</td><td><span class="code">FROM node:16</span></td></tr>
+                    <tr><td><span class="code">WORKDIR</span></td><td>Working dir</td><td><span class="code">WORKDIR /app</span></td></tr>
+                    <tr><td><span class="code">COPY</span></td><td>Copy files</td><td><span class="code">COPY . .</span></td></tr>
+                    <tr><td><span class="code">RUN</span></td><td>Execute cmd</td><td><span class="code">RUN npm install</span></td></tr>
+                    <tr><td><span class="code">EXPOSE</span></td><td>Port</td><td><span class="code">EXPOSE 3000</span></td></tr>
+                    <tr><td><span class="code">CMD</span></td><td>Default cmd</td><td><span class="code">CMD ["start"]</span></td></tr>
+                </table>
+            </div>
+        </div>
+
+        <!-- Four Column Layout for Quick Commands -->
+        <div class="four-col">
+            <div class="mini-card">
+                <div class="title">Volumes</div>
+                <span class="cmd">docker volume ls</span>
+                <span class="cmd">docker volume create vol</span>
+                <span class="cmd">docker volume rm vol</span>
+            </div>
+            <div class="mini-card">
+                <div class="title">Networks</div>
+                <span class="cmd">docker network ls</span>
+                <span class="cmd">docker network create net</span>
+                <span class="cmd">docker network connect</span>
+            </div>
+            <div class="mini-card">
+                <div class="title">System</div>
+                <span class="cmd">docker info</span>
+                <span class="cmd">docker version</span>
+                <span class="cmd">docker stats</span>
+            </div>
+            <div class="mini-card">
+                <div class="title">Cleanup</div>
+                <span class="cmd">docker system prune</span>
+                <span class="cmd">docker container prune</span>
+                <span class="cmd">docker image prune</span>
+            </div>
+        </div>
+
+        <!-- Container States and Network Types -->
+        <div class="two-col">
+            <div class="compact-section">
+                <h3>Container States</h3>
+                <div style="display: flex; gap: 8px; justify-content: center;">
+                    <span class="status status-created">Created</span>
+                    <span class="status status-running">Running</span>
+                    <span class="status status-stopped">Exited</span>
+                </div>
+            </div>
+
+            <div class="compact-section">
+                <h3>Network Types</h3>
+                <table class="table">
+                    <tr><th>Type</th><th>Description</th><th>Use Case</th></tr>
+                    <tr><td><span class="code">bridge</span></td><td>Default isolated</td><td>Single host</td></tr>
+                    <tr><td><span class="code">host</span></td><td>Use host network</td><td>Performance</td></tr>
+                    <tr><td><span class="code">none</span></td><td>No networking</td><td>Isolated</td></tr>
+                    <tr><td><span class="code">overlay</span></td><td>Multi-host</td><td>Swarm</td></tr>
+                </table>
+            </div>
+        </div>
+
+        <!-- Quick Reference Grid -->
+        <div class="ref-grid">
+            <div class="ref-item">
+                <span class="key">-i</span>
+                <div class="val">Interactive</div>
+            </div>
+            <div class="ref-item">
+                <span class="key">-t</span>
+                <div class="val">TTY</div>
+            </div>
+            <div class="ref-item">
+                <span class="key">-f</span>
+                <div class="val">Follow logs</div>
+            </div>
+            <div class="ref-item">
+                <span class="key">-a</span>
+                <div class="val">All</div>
+            </div>
+            <div class="ref-item">
+                <span class="key">--rm</span>
+                <div class="val">Auto remove</div>
+            </div>
+            <div class="ref-item">
+                <span class="key">-q</span>
+                <div class="val">Quiet</div>
+            </div>
+        </div>
+
+        <!-- Tips -->
+        <div class="tips">
+            <strong>💡 Tips:</strong> Use <code>docker --help</code> for command help • <code>docker system df</code> shows disk usage • <code>docker inspect</code> for detailed info
+        </div>
+    </div>
+</body>
+</html>

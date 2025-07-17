@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Microsoft Teams Cheatsheet</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-size: 8px;
+            line-height: 1.1;
+            color: #323130;
+            background: white;
+            padding: 6px;
+        }
+
+        .container {
+            max-width: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #6264a7 0%, #464775 100%);
+            color: white;
+            padding: 3px 6px;
+            text-align: center;
+            margin-bottom: 4px;
+            border-radius: 2px;
+        }
+
+        .header h1 {
+            font-size: 12px;
+            margin-bottom: 1px;
+            font-weight: bold;
+        }
+
+        .header p {
+            font-size: 7px;
+            opacity: 0.9;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 3px;
+            margin-bottom: 4px;
+        }
+
+        .grid-4 {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+            gap: 2px;
+            margin-bottom: 4px;
+        }
+
+        .section {
+            background: #faf9f8;
+            border: 1px solid #edebe9;
+            border-radius: 2px;
+            padding: 3px;
+        }
+
+        .section h2 {
+            font-size: 9px;
+            color: white;
+            margin-bottom: 2px;
+            background: #6264a7;
+            padding: 1px 3px;
+            border-radius: 1px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .shortcut-list {
+            list-style: none;
+        }
+
+        .shortcut-item {
+            margin-bottom: 1px;
+            font-size: 7px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .action {
+            color: #323130;
+            flex: 1;
+        }
+
+        .keys {
+            font-family: 'SF Mono', Monaco, monospace;
+            background: #323130;
+            color: #a19f9d;
+            padding: 0px 2px;
+            border-radius: 1px;
+            font-size: 6px;
+            margin-left: 2px;
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 7px;
+            margin-bottom: 2px;
+        }
+
+        .table th {
+            background: #f3f2f1;
+            padding: 2px;
+            text-align: left;
+            font-weight: 600;
+            border-bottom: 1px solid #edebe9;
+            font-size: 7px;
+        }
+
+        .table td {
+            padding: 2px;
+            border-bottom: 1px solid #edebe9;
+            vertical-align: top;
+        }
+
+        .table .code {
+            font-family: 'SF Mono', Monaco, monospace;
+            background: #f3f2f1;
+            padding: 1px 2px;
+            border-radius: 1px;
+            font-size: 6px;
+        }
+
+        .compact-section {
+            background: #faf9f8;
+            border: 1px solid #edebe9;
+            border-radius: 2px;
+            padding: 2px;
+            margin-bottom: 3px;
+        }
+
+        .compact-section h3 {
+            font-size: 8px;
+            color: #323130;
+            margin-bottom: 1px;
+            font-weight: 600;
+        }
+
+        .feature-card {
+            background: white;
+            border: 1px solid #edebe9;
+            border-radius: 1px;
+            padding: 2px;
+            text-align: center;
+        }
+
+        .feature-card .title {
+            font-size: 7px;
+            font-weight: 600;
+            color: #323130;
+            margin-bottom: 1px;
+        }
+
+        .feature-card .desc {
+            font-size: 6px;
+            color: #605e5c;
+        }
+
+        .status-indicator {
+            display: inline-block;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            margin-right: 3px;
+        }
+
+        .status-available { background: #92c5f7; }
+        .status-busy { background: #c4314b; }
+        .status-away { background: #ffaa44; }
+        .status-offline { background: #8a8886; }
+
+        .tips-section {
+            background: #fff4ce;
+            border-left: 3px solid #ffaa44;
+            padding: 3px 4px;
+            margin: 4px 0;
+            font-size: 7px;
+            color: #323130;
+        }
+
+        .version-info {
+            background: #f0f0f0;
+            padding: 2px 4px;
+            border-radius: 2px;
+            font-size: 6px;
+            color: #605e5c;
+            text-align: center;
+            margin: 3px 0;
+        }
+
+        .version-info a {
+            color: #6264a7;
+            text-decoration: none;
+        }
+
+        .version-info a:hover {
+            text-decoration: underline;
+        }
+
+        /* Print Optimization - Following Rules */
+        @media print {
+            body {
+                font-size: 7px;
+                padding: 4px;
+                margin: 0;
+            }
+            
+            .header {
+                background: #6264a7 !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            
+            .section {
+                page-break-inside: avoid;
+                margin-bottom: 3px;
+            }
+            
+            .table {
+                page-break-inside: avoid;
+            }
+            
+            .feature-card {
+                page-break-inside: avoid;
+            }
+            
+            .keys {
+                background: #f3f2f1 !important;
+                color: #323130 !important;
+                border: 1px solid #edebe9;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            
+            /* Ensure A4 page compliance */
+            .container {
+                max-width: 190mm;
+                max-height: 277mm;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📞 Microsoft Teams Cheatsheet</h1>
+            <p>Essential shortcuts, features, and commands for productivity</p>
+        </div>
+
+        <!-- Main Grid Layout - 3 Columns -->
+        <div class="grid-3">
+            <!-- Navigation & General -->
+            <div class="section">
+                <h2>⚡ Navigation</h2>
+                <ul class="shortcut-list">
+                    <li class="shortcut-item"><span class="action">Search</span><span class="keys">Ctrl+E</span></li>
+                    <li class="shortcut-item"><span class="action">Command Box</span><span class="keys">Ctrl+/</span></li>
+                    <li class="shortcut-item"><span class="action">Settings</span><span class="keys">Ctrl+,</span></li>
+                    <li class="shortcut-item"><span class="action">Activity</span><span class="keys">Ctrl+1</span></li>
+                    <li class="shortcut-item"><span class="action">Chat</span><span class="keys">Ctrl+2</span></li>
+                    <li class="shortcut-item"><span class="action">Teams</span><span class="keys">Ctrl+3</span></li>
+                    <li class="shortcut-item"><span class="action">Calendar</span><span class="keys">Ctrl+4</span></li>
+                    <li class="shortcut-item"><span class="action">Calls</span><span class="keys">Ctrl+5</span></li>
+                    <li class="shortcut-item"><span class="action">Files</span><span class="keys">Ctrl+6</span></li>
+                    <li class="shortcut-item"><span class="action">Filter</span><span class="keys">Ctrl+Shift+F</span></li>
+                    <li class="shortcut-item"><span class="action">Help</span><span class="keys">F1</span></li>
+                </ul>
+            </div>
+
+            <!-- Messaging & Chat -->
+            <div class="section">
+                <h2>💬 Messaging</h2>
+                <ul class="shortcut-list">
+                    <li class="shortcut-item"><span class="action">New Chat</span><span class="keys">Ctrl+N</span></li>
+                    <li class="shortcut-item"><span class="action">Send Message</span><span class="keys">Enter</span></li>
+                    <li class="shortcut-item"><span class="action">New Line</span><span class="keys">Shift+Enter</span></li>
+                    <li class="shortcut-item"><span class="action">Reply</span><span class="keys">R</span></li>
+                    <li class="shortcut-item"><span class="action">Bold Text</span><span class="keys">Ctrl+B</span></li>
+                    <li class="shortcut-item"><span class="action">Italic Text</span><span class="keys">Ctrl+I</span></li>
+                    <li class="shortcut-item"><span class="action">Attach File</span><span class="keys">Ctrl+O</span></li>
+                    <li class="shortcut-item"><span class="action">@Mention</span><span class="keys">@name</span></li>
+                    <li class="shortcut-item"><span class="action">Edit Message</span><span class="keys">↑</span></li>
+                    <li class="shortcut-item"><span class="action">Delete Message</span><span class="keys">Ctrl+D</span></li>
+                    <li class="shortcut-item"><span class="action">Emoji</span><span class="keys">Win+;</span></li>
+                </ul>
+            </div>
+
+            <!-- Meetings & Calls -->
+            <div class="section">
+                <h2>📹 Meetings</h2>
+                <ul class="shortcut-list">
+                    <li class="shortcut-item"><span class="action">Accept Call</span><span class="keys">Ctrl+Shift+A</span></li>
+                    <li class="shortcut-item"><span class="action">Decline Call</span><span class="keys">Ctrl+Shift+D</span></li>
+                    <li class="shortcut-item"><span class="action">Video Call</span><span class="keys">Ctrl+Shift+U</span></li>
+                    <li class="shortcut-item"><span class="action">Audio Call</span><span class="keys">Ctrl+Shift+C</span></li>
+                    <li class="shortcut-item"><span class="action">End Call</span><span class="keys">Ctrl+Shift+H</span></li>
+                    <li class="shortcut-item"><span class="action">Mute/Unmute</span><span class="keys">Ctrl+Shift+M</span></li>
+                    <li class="shortcut-item"><span class="action">Video On/Off</span><span class="keys">Ctrl+Shift+O</span></li>
+                    <li class="shortcut-item"><span class="action">Share Screen</span><span class="keys">Ctrl+Shift+E</span></li>
+                    <li class="shortcut-item"><span class="action">Raise Hand</span><span class="keys">Ctrl+Shift+K</span></li>
+                    <li class="shortcut-item"><span class="action">Toggle Chat</span><span class="keys">Ctrl+Shift+Y</span></li>
+                    <li class="shortcut-item"><span class="action">Background</span><span class="keys">Ctrl+Shift+P</span></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Compact Information Grid -->
+        <div class="grid-4">
+            <div class="compact-section">
+                <h3>🔔 Status</h3>
+                <table class="table">
+                    <tr><td><span class="status-indicator status-available"></span>Available</td><td>Green</td></tr>
+                    <tr><td><span class="status-indicator status-busy"></span>Busy</td><td>Red</td></tr>
+                    <tr><td><span class="status-indicator status-away"></span>Away</td><td>Yellow</td></tr>
+                    <tr><td><span class="status-indicator status-offline"></span>Offline</td><td>Gray</td></tr>
+                </table>
+            </div>
+
+            <div class="compact-section">
+                <h3>⌨️ Commands</h3>
+                <table class="table">
+                    <tr><td><span class="code">/call</span></td><td>Start call</td></tr>
+                    <tr><td><span class="code">/goto</span></td><td>Navigate</td></tr>
+                    <tr><td><span class="code">/join</span></td><td>Join team</td></tr>
+                    <tr><td><span class="code">/busy</span></td><td>Set busy</td></tr>
+                    <tr><td><span class="code">/keys</span></td><td>Shortcuts</td></tr>
+                </table>
+            </div>
+
+            <div class="compact-section">
+                <h3>👥 Teams</h3>
+                <table class="table">
+                    <tr><td>Create Team</td><td>Ctrl+Shift+N</td></tr>
+                    <tr><td>Join Team</td><td>Ctrl+J</td></tr>
+                    <tr><td>Add Channel</td><td>Ctrl+Shift+A</td></tr>
+                    <tr><td>Pin Channel</td><td>Ctrl+Shift+P</td></tr>
+                    <tr><td>Hide Team</td><td>H</td></tr>
+                </table>
+            </div>
+
+            <div class="compact-section">
+                <h3>🔗 Apps</h3>
+                <table class="table">
+                    <tr><td>📊 Power BI</td><td>Dashboards</td></tr>
+                    <tr><td>📋 Planner</td><td>Tasks</td></tr>
+                    <tr><td>📝 OneNote</td><td>Notes</td></tr>
+                    <tr><td>🎥 Stream</td><td>Videos</td></tr>
+                    <tr><td>📑 Forms</td><td>Surveys</td></tr>
+                </table>
+            </div>
+        </div>
+
+        <!-- Feature Cards -->
+        <div class="grid-4">
+            <div class="feature-card">
+                <div class="title">📁 Files</div>
+                <div class="desc">• Drag & drop<br>• OneDrive sync<br>• Co-editing<br>• Version history</div>
+            </div>
+            <div class="feature-card">
+                <div class="title">📊 Share</div>
+                <div class="desc">• Screen/window<br>• Remote control<br>• Annotations<br>• Laser pointer</div>
+            </div>
+            <div class="feature-card">
+                <div class="title">⏺️ Record</div>
+                <div class="desc">• Cloud storage<br>• Transcription<br>• Auto-save<br>• Download</div>
+            </div>
+            <div class="feature-card">
+                <div class="title">🎨 Effects</div>
+                <div class="desc">• Backgrounds<br>• Blur mode<br>• Together mode<br>• Custom images</div>
+            </div>
+        </div>
+
+        <!-- Additional Features -->
+        <div class="grid-4">
+            <div class="feature-card">
+                <div class="title">🔔 Notifications</div>
+                <div class="desc">• Banner alerts<br>• Priority contacts<br>• Quiet hours<br>• Mobile sync</div>
+            </div>
+            <div class="feature-card">
+                <div class="title">🏠 Breakout Rooms</div>
+                <div class="desc">• Auto assign<br>• Private chat<br>• Return to main<br>• Timer controls</div>
+            </div>
+            <div class="feature-card">
+                <div class="title">📱 Mobile</div>
+                <div class="desc">• Push notifications<br>• Offline access<br>• Voice messages<br>• Location sharing</div>
+            </div>
+            <div class="feature-card">
+                <div class="title">🌐 Web Access</div>
+                <div class="desc">• Browser support<br>• Guest access<br>• Quick meetings<br>• Limited features</div>
+            </div>
+        </div>
+
+        <!-- Quick Reference -->
+        <div class="grid-4">
+            <div class="compact-section">
+                <h3>📹 Meeting Controls</h3>
+                <table class="table">
+                    <tr><td>Mute</td><td>Ctrl+Shift+M</td></tr>
+                    <tr><td>Video</td><td>Ctrl+Shift+O</td></tr>
+                    <tr><td>Share</td><td>Ctrl+Shift+E</td></tr>
+                    <tr><td>Hand</td><td>Ctrl+Shift+K</td></tr>
+                </table>
+            </div>
+
+            <div class="compact-section">
+                <h3>📝 Text Formatting</h3>
+                <table class="table">
+                    <tr><td>Bold</td><td>Ctrl+B</td></tr>
+                    <tr><td>Italic</td><td>Ctrl+I</td></tr>
+                    <tr><td>Underline</td><td>Ctrl+U</td></tr>
+                    <tr><td>Code</td><td>Ctrl+Shift+M</td></tr>
+                </table>
+            </div>
+
+            <div class="compact-section">
+                <h3>🔍 Navigation</h3>
+                <table class="table">
+                    <tr><td>Search</td><td>Ctrl+E</td></tr>
+                    <tr><td>Commands</td><td>Ctrl+/</td></tr>
+                    <tr><td>Settings</td><td>Ctrl+,</td></tr>
+                    <tr><td>Filter</td><td>Ctrl+Shift+F</td></tr>
+                </table>
+            </div>
+
+            <div class="compact-section">
+                <h3>📊 File Actions</h3>
+                <table class="table">
+                    <tr><td>Upload</td><td>Ctrl+O</td></tr>
+                    <tr><td>Download</td><td>Ctrl+Shift+D</td></tr>
+                    <tr><td>Preview</td><td>Space</td></tr>
+                    <tr><td>Copy Link</td><td>Ctrl+C</td></tr>
+                </table>
+            </div>
+        </div>
+
+        <!-- Tips Section -->
+        <div class="tips-section">
+            <strong>💡 Tips:</strong> Use @mentions for urgent messages • Pin conversations • Set custom status • Use /busy for DND • Schedule from chat • Priority notifications • Background effects in meetings • Together mode for collaboration
+        </div>
+
+        <!-- Contributor Information -->
+        <div class="version-info">
+            <strong>👥 Team:</strong> TechxConf | <strong>🌐 Web:</strong> <a href="https://techxconf.com">TechxConf</a> | <strong>📧 Contact:</strong> Team@techxconf.com
+        </div>
+    </div>
+</body>
+</html>
