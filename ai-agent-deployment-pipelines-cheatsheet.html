@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Agent Deployment Pipelines Cheatsheet</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-size: 10px;
+            line-height: 1.3;
+            color: #e2e8f0;
+            background: #1a202c;
+            padding: 10px;
+            max-width: 210mm;
+            margin: 0 auto;
+        }
+
+        .container {
+            max-width: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #4c51bf 0%, #667eea 100%);
+            color: white;
+            padding: 6px 10px;
+            text-align: center;
+            margin-bottom: 8px;
+            border-radius: 4px;
+            position: relative;
+        }
+
+        .header::before {
+            content: "🤖";
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 18px;
+        }
+
+        .header::after {
+            content: "🚀";
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 18px;
+        }
+
+        .header h1 {
+            font-size: 16px;
+            font-weight: bold;
+            margin: 0;
+        }
+
+        .header p {
+            font-size: 9px;
+            margin: 2px 0 0 0;
+            opacity: 0.9;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 6px;
+            margin-bottom: 8px;
+        }
+
+        .full-width {
+            grid-column: 1 / -1;
+        }
+
+        .section {
+            background: #2d3748;
+            border-radius: 4px;
+            padding: 6px 8px;
+            margin-bottom: 6px;
+            border-left: 3px solid #4c51bf;
+        }
+
+        .section h2 {
+            font-size: 11px;
+            margin-bottom: 4px;
+            color: #a0aec0;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .section h3 {
+            font-size: 10px;
+            margin: 4px 0 2px 0;
+            color: #cbd5e0;
+        }
+
+        .code {
+            background: #1a202c;
+            border: 1px solid #4a5568;
+            border-radius: 3px;
+            padding: 3px 5px;
+            font-family: 'Courier New', monospace;
+            font-size: 8px;
+            margin: 2px 0;
+            overflow-x: auto;
+        }
+
+        .code.inline {
+            display: inline;
+            padding: 1px 3px;
+            margin: 0 1px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 4px 0;
+            font-size: 9px;
+        }
+
+        th, td {
+            border: 1px solid #4a5568;
+            padding: 3px 4px;
+            text-align: left;
+        }
+
+        th {
+            background: #4a5568;
+            font-weight: bold;
+            font-size: 8px;
+        }
+
+        tr:nth-child(even) {
+            background: #2d3748;
+        }
+
+        .badge {
+            display: inline-block;
+            background: #4c51bf;
+            color: white;
+            padding: 1px 4px;
+            border-radius: 2px;
+            font-size: 8px;
+            margin: 1px 2px;
+        }
+
+        .badge.success { background: #38a169; }
+        .badge.warning { background: #d69e2e; }
+        .badge.error { background: #e53e3e; }
+        .badge.info { background: #3182ce; }
+
+        .list {
+            margin: 2px 0;
+            padding-left: 12px;
+        }
+
+        .list li {
+            margin: 1px 0;
+            font-size: 9px;
+        }
+
+        .icon {
+            font-size: 12px;
+            margin-right: 4px;
+        }
+
+        .cmd {
+            background: #1a202c;
+            border-left: 3px solid #38a169;
+            padding: 2px 6px;
+            margin: 2px 0;
+            font-family: monospace;
+            font-size: 8px;
+        }
+
+        .workflow {
+            background: #2d3748;
+            border: 1px solid #4a5568;
+            border-radius: 3px;
+            padding: 4px;
+            margin: 2px 0;
+        }
+
+        .workflow-step {
+            background: #1a202c;
+            margin: 2px 0;
+            padding: 2px 4px;
+            border-radius: 2px;
+            font-size: 8px;
+        }
+
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4px;
+        }
+
+        .footer {
+            background: #2d3748;
+            color: #a0aec0;
+            padding: 4px 8px;
+            text-align: center;
+            margin-top: 8px;
+            border-radius: 4px;
+            font-size: 8px;
+        }
+
+        @media print {
+            body {
+                background: white;
+                color: black;
+                print-color-adjust: exact;
+                -webkit-print-color-adjust: exact;
+            }
+            
+            .container {
+                max-width: 100%;
+                margin: 0;
+                padding: 0;
+            }
+            
+            .section {
+                page-break-inside: avoid;
+            }
+            
+            .grid {
+                page-break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>AI Agent Deployment Pipelines</h1>
+            <p>Best practices for efficient and automated deployment pipelines in production environments</p>
+        </div>
+
+        <div class="grid">
+            <div class="section">
+                <h2><span class="icon">🔄</span>CI/CD Pipeline Setup</h2>
+                <div class="code">
+# GitHub Actions Workflow
+name: AI Agent Deploy
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+</div>
+                <div class="workflow">
+                    <div class="workflow-step">1. <code>Build</code> → Test → Package</div>
+                    <div class="workflow-step">2. <code>Security</code> → Scan → Validate</div>
+                    <div class="workflow-step">3. <code>Deploy</code> → Staging → Production</div>
+                </div>
+                <table>
+                    <tr><th>Tool</th><th>Use Case</th></tr>
+                    <tr><td>GitHub Actions</td><td>Native CI/CD</td></tr>
+                    <tr><td>Jenkins</td><td>Self-hosted</td></tr>
+                    <tr><td>GitLab CI</td><td>Full DevOps</td></tr>
+                </table>
+            </div>
+
+            <div class="section">
+                <h2><span class="icon">🐳</span>Containerization</h2>
+                <div class="code">
+# Dockerfile for AI Agent
+FROM python:3.9-slim
+WORKDIR /app
+COPY requirements.txt .
+RUN pip install -r requirements.txt
+COPY . .
+CMD ["python", "agent.py"]
+</div>
+                <div class="two-col">
+                    <div>
+                        <h3>Docker Best Practices</h3>
+                        <ul class="list">
+                            <li>Multi-stage builds</li>
+                            <li>Non-root user</li>
+                            <li>Minimal base images</li>
+                            <li>Layer caching</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3>Commands</h3>
+                        <div class="cmd">docker build -t ai-agent:v1.0 .</div>
+                        <div class="cmd">docker run -p 8080:8080 ai-agent:v1.0</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid-3">
+            <div class="section">
+                <h2><span class="icon">📊</span>Monitoring</h2>
+                <table>
+                    <tr><th>Metric</th><th>Tool</th></tr>
+                    <tr><td>Response Time</td><td>Prometheus</td></tr>
+                    <tr><td>Error Rate</td><td>Grafana</td></tr>
+                    <tr><td>Resource Usage</td><td>DataDog</td></tr>
+                    <tr><td>Model Performance</td><td>MLflow</td></tr>
+                </table>
+                <div class="code">
+# Prometheus config
+- job_name: 'ai-agent'
+  static_configs:
+    - targets: ['localhost:8080']
+</div>
+            </div>
+
+            <div class="section">
+                <h2><span class="icon">🔐</span>Security</h2>
+                <div class="badge error">Critical</div>
+                <div class="badge warning">High</div>
+                <div class="badge info">Medium</div>
+                <ul class="list">
+                    <li>API key rotation</li>
+                    <li>Model encryption</li>
+                    <li>Input validation</li>
+                    <li>Rate limiting</li>
+                    <li>Audit logging</li>
+                </ul>
+                <div class="code">
+# Environment variables
+AI_API_KEY=${SECRET_KEY}
+MODEL_PATH=/secure/models/
+</div>
+            </div>
+
+            <div class="section">
+                <h2><span class="icon">🚀</span>Deployment Strategies</h2>
+                <table>
+                    <tr><th>Strategy</th><th>Risk</th></tr>
+                    <tr><td>Blue-Green</td><td>Low</td></tr>
+                    <tr><td>Canary</td><td>Medium</td></tr>
+                    <tr><td>Rolling</td><td>Medium</td></tr>
+                    <tr><td>A/B Testing</td><td>High</td></tr>
+                </table>
+                <div class="code">
+# Kubernetes deployment
+replicas: 3
+strategy:
+  type: RollingUpdate
+  rollingUpdate:
+    maxSurge: 1
+    maxUnavailable: 1
+</div>
+            </div>
+        </div>
+
+        <div class="grid">
+            <div class="section">
+                <h2><span class="icon">🧪</span>Testing Framework</h2>
+                <div class="two-col">
+                    <div>
+                        <h3>Unit Tests</h3>
+                        <div class="code">
+# pytest for AI agent
+def test_agent_response():
+    agent = AIAgent()
+    response = agent.process("test")
+    assert response is not None
+</div>
+                    </div>
+                    <div>
+                        <h3>Integration Tests</h3>
+                        <div class="code">
+# Load testing
+def test_agent_load():
+    for i in range(1000):
+        response = agent.process(f"test_{i}")
+        assert response.status == 200
+</div>
+                    </div>
+                </div>
+                <table>
+                    <tr><th>Test Type</th><th>Tool</th><th>Coverage</th></tr>
+                    <tr><td>Unit</td><td>pytest</td><td>90%+</td></tr>
+                    <tr><td>Integration</td><td>pytest</td><td>70%+</td></tr>
+                    <tr><td>Load</td><td>Locust</td><td>1000 RPS</td></tr>
+                    <tr><td>Model</td><td>MLflow</td><td>Custom</td></tr>
+                </table>
+            </div>
+
+            <div class="section">
+                <h2><span class="icon">⚙️</span>Infrastructure as Code</h2>
+                <div class="code">
+# Terraform for AWS
+resource "aws_ecs_service" "ai_agent" {
+  name            = "ai-agent"
+  cluster         = aws_ecs_cluster.main.id
+  task_definition = aws_ecs_task_definition.ai_agent.arn
+  desired_count   = 3
+}
+</div>
+                <div class="code">
+# Ansible playbook
+- name: Deploy AI Agent
+  hosts: production
+  tasks:
+    - name: Pull latest image
+      docker_image:
+        name: ai-agent:latest
+        source: pull
+</div>
+                <table>
+                    <tr><th>Tool</th><th>Use Case</th></tr>
+                    <tr><td>Terraform</td><td>Cloud resources</td></tr>
+                    <tr><td>Ansible</td><td>Configuration</td></tr>
+                    <tr><td>Helm</td><td>K8s packages</td></tr>
+                </table>
+            </div>
+        </div>
+
+        <div class="section full-width">
+            <h2><span class="icon">🛠️</span>Essential Tools & Commands</h2>
+            <div class="grid-3">
+                <div>
+                    <h3>Docker Commands</h3>
+                    <div class="cmd">docker build -t ai-agent .</div>
+                    <div class="cmd">docker run -d -p 8080:8080 ai-agent</div>
+                    <div class="cmd">docker logs ai-agent</div>
+                    <div class="cmd">docker exec -it ai-agent /bin/bash</div>
+                </div>
+                <div>
+                    <h3>Kubernetes Commands</h3>
+                    <div class="cmd">kubectl apply -f deployment.yaml</div>
+                    <div class="cmd">kubectl get pods -l app=ai-agent</div>
+                    <div class="cmd">kubectl logs -f deployment/ai-agent</div>
+                    <div class="cmd">kubectl scale deployment ai-agent --replicas=5</div>
+                </div>
+                <div>
+                    <h3>Monitoring Commands</h3>
+                    <div class="cmd">curl -s localhost:8080/health</div>
+                    <div class="cmd">kubectl top pods</div>
+                    <div class="cmd">docker stats ai-agent</div>
+                    <div class="cmd">aws cloudwatch get-metric-statistics</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section full-width">
+            <h2><span class="icon">📋</span>Quick Reference</h2>
+            <table>
+                <tr>
+                    <th>Phase</th>
+                    <th>Actions</th>
+                    <th>Tools</th>
+                    <th>Metrics</th>
+                </tr>
+                <tr>
+                    <td><span class="badge">Build</span></td>
+                    <td>Code → Test → Package → Security Scan</td>
+                    <td>Docker, GitHub Actions, SonarQube</td>
+                    <td>Build Time, Test Coverage, Vulnerabilities</td>
+                </tr>
+                <tr>
+                    <td><span class="badge success">Deploy</span></td>
+                    <td>Image → Registry → Staging → Production</td>
+                    <td>Kubernetes, Helm, Terraform</td>
+                    <td>Deployment Time, Success Rate</td>
+                </tr>
+                <tr>
+                    <td><span class="badge info">Monitor</span></td>
+                    <td>Logs → Metrics → Alerts → Dashboards</td>
+                    <td>Prometheus, Grafana, ELK Stack</td>
+                    <td>Latency, Error Rate, Throughput</td>
+                </tr>
+                <tr>
+                    <td><span class="badge warning">Scale</span></td>
+                    <td>Load Test → Auto-scale → Optimize</td>
+                    <td>HPA, Locust, JMeter</td>
+                    <td>RPS, Response Time, Resource Usage</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="footer">
+            <p>AI Agent Deployment Pipelines Cheatsheet | Team: TechxConf | Web: techxconf.com | Contact: Team@techxconf.com</p>
+        </div>
+    </div>
+</body>
+</html>
