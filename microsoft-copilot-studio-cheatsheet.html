@@ -12,40 +12,53 @@
         }
 
         html {
-            background: #1a202c;
-            min-height: 100vh;
+            background: #0f172a;
+            width: 210mm;
+            height: 297mm;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            font-size: 8px;
-            line-height: 1.1;
+            font-size: 7px;
+            line-height: 1.0;
             color: #e2e8f0;
-            background: #1a202c;
-            padding: 8px;
+            background: #0f172a;
+            padding: 0;
+            width: 210mm;
+            height: 297mm;
             max-width: 210mm;
+            max-height: 297mm;
             margin: 0 auto;
-            min-height: 100vh;
+            box-sizing: border-box;
+            overflow: hidden;
         }
 
         .container {
-            max-width: 100%;
+            width: 100%;
+            height: 100%;
             margin: 0;
-            padding: 0;
+            padding: 2mm;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
         }
 
         .header {
             background: linear-gradient(135deg, #0078d4 0%, #106ebe 100%);
             color: white;
-            padding: 4px 8px;
+            padding: 2px 6px;
             text-align: center;
-            margin-bottom: 6px;
-            border-radius: 3px;
+            margin-bottom: 3px;
+            border-radius: 2px;
             position: relative;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 6px;
+            gap: 4px;
+            flex-shrink: 0;
         }
 
         .header::before {
@@ -66,15 +79,6 @@
             font-size: 12px;
         }
 
-        .copilot-logo {
-            width: 20px;
-            height: 20px;
-            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:%2300b4d8;stop-opacity:1" /><stop offset="25%" style="stop-color:%230077be;stop-opacity:1" /><stop offset="50%" style="stop-color:%237209b7;stop-opacity:1" /><stop offset="75%" style="stop-color:%23ff006e;stop-opacity:1" /><stop offset="100%" style="stop-color:%23ffbe0b;stop-opacity:1" /></linearGradient><linearGradient id="grad2" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:%23fb8500;stop-opacity:1" /><stop offset="50%" style="stop-color:%23ff006e;stop-opacity:1" /><stop offset="100%" style="stop-color:%238338ec;stop-opacity:1" /></linearGradient></defs><path d="M20 30 Q30 20 45 25 Q60 30 65 45 Q70 60 55 65 Q40 70 35 55 Q30 40 20 30 Z" fill="url(%23grad1)" opacity="0.9"/><path d="M35 15 Q50 10 65 20 Q80 30 75 50 Q70 70 50 65 Q30 60 35 40 Q40 20 35 15 Z" fill="url(%23grad2)" opacity="0.8"/><ellipse cx="40" cy="40" rx="15" ry="20" fill="url(%23grad1)" opacity="0.7" transform="rotate(45 40 40)"/><ellipse cx="60" cy="35" rx="12" ry="18" fill="url(%23grad2)" opacity="0.6" transform="rotate(-30 60 35)"/></svg>') no-repeat center;
-            background-size: contain;
-            display: inline-block;
-            vertical-align: middle;
-        }
-
         .header-content {
             display: flex;
             flex-direction: column;
@@ -83,17 +87,17 @@
         }
 
         .header h1 {
-            font-size: 12px;
-            margin-bottom: 1px;
+            font-size: 10px;
+            margin-bottom: 0;
         }
 
         .header h1::before {
             content: "🧠 ";
-            font-size: 10px;
+            font-size: 8px;
         }
 
         .header p {
-            font-size: 7px;
+            font-size: 6px;
             opacity: 0.9;
         }
 
@@ -101,22 +105,28 @@
             display: grid;
             grid-template-columns: 1fr 1fr 1fr 1fr;
             gap: 3px;
-            margin-bottom: 4px;
+            margin-bottom: 3px;
+            align-items: start;
         }
 
         .section {
-            background: #2d3748;
-            border: 1px solid #4a5568;
-            border-radius: 3px;
+            background: #1e293b;
+            border: 1px solid #475569;
+            border-radius: 2px;
             padding: 4px;
+            overflow: hidden;
+            word-wrap: break-word;
+            height: fit-content;
+            min-height: 120px;
         }
 
         .section h2 {
-            font-size: 9px;
+            font-size: 8px;
             color: white;
-            margin-bottom: 3px;
+            margin-bottom: 4px;
+            margin-top: 2px;
             background: #0078d4;
-            padding: 1px 3px;
+            padding: 2px 4px;
             border-radius: 2px;
             text-align: center;
             position: relative;
@@ -134,21 +144,27 @@
 
         .item-list {
             list-style: none;
+            padding: 0;
+            margin: 0;
         }
 
         .item {
             margin-bottom: 1px;
-            font-size: 7px;
+            font-size: 6px;
+            line-height: 1.1;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
         }
 
         .feature {
             font-family: 'SF Mono', Monaco, monospace;
-            background: #4a5568;
+            background: #334155;
             color: #81c784;
-            padding: 1px 2px;
+            padding: 1px 3px;
             border-radius: 2px;
             display: inline-block;
             margin-bottom: 1px;
+            margin-right: 2px;
             font-size: 6px;
             position: relative;
         }
@@ -179,35 +195,43 @@
             color: #a0aec0;
             font-size: 6px;
             margin-left: 2px;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
         }
 
         .table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 6px;
-            margin-bottom: 3px;
+            font-size: 5px;
+            margin-bottom: 2px;
+            margin-top: 1px;
+            table-layout: fixed;
         }
 
         .table th {
-            background: #4a5568;
+            background: #334155;
             color: white;
-            padding: 1px 2px;
+            padding: 0.5px 1px;
             text-align: left;
             font-weight: 600;
-            border-bottom: 1px solid #718096;
-            font-size: 6px;
+            border-bottom: 1px solid #64748b;
+            font-size: 5px;
+            line-height: 1.0;
         }
 
         .table td {
-            padding: 1px 2px;
-            border-bottom: 1px solid #4a5568;
+            padding: 0.5px 1px;
+            border-bottom: 1px solid #334155;
             vertical-align: top;
-            background: #2d3748;
+            background: #1e293b;
+            font-size: 5px;
+            line-height: 1.0;
+            word-wrap: break-word;
         }
 
         .table .code {
             font-family: 'SF Mono', Monaco, monospace;
-            background: #1a202c;
+            background: #0f172a;
             color: #81c784;
             padding: 1px 2px;
             border-radius: 1px;
@@ -217,32 +241,39 @@
         .two-col {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 4px;
-            margin-bottom: 4px;
+            gap: 3px;
+            margin-bottom: 3px;
         }
 
         .three-col {
             display: grid;
             grid-template-columns: 1fr 1fr 1fr;
             gap: 3px;
-            margin-bottom: 4px;
+            margin-bottom: 3px;
+            align-items: start;
         }
 
         .compact-section {
-            background: #2d3748;
-            border: 1px solid #4a5568;
-            border-radius: 3px;
+            background: #1e293b;
+            border: 1px solid #475569;
+            border-radius: 2px;
             padding: 3px;
-            margin-bottom: 3px;
+            margin-bottom: 2px;
+            overflow: hidden;
+            word-wrap: break-word;
         }
 
         .compact-section h3 {
-            font-size: 8px;
+            font-size: 6px;
             color: #e2e8f0;
             margin-bottom: 2px;
+            margin-top: 2px;
             font-weight: 600;
             position: relative;
-            padding-left: 14px;
+            padding-left: 10px;
+            padding-top: 1px;
+            padding-bottom: 1px;
+            line-height: 1.2;
         }
 
         .compact-section h3::before {
@@ -266,9 +297,9 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin: 2px 0;
-            padding: 2px;
-            background: #4a5568;
+            margin: 3px 0;
+            padding: 3px;
+            background: #334155;
             border-radius: 3px;
             font-size: 6px;
             position: relative;
@@ -295,7 +326,7 @@
         .flow-step {
             background: #0078d4;
             color: white;
-            padding: 1px 3px;
+            padding: 2px 4px;
             border-radius: 2px;
             font-size: 6px;
             position: relative;
@@ -314,31 +345,33 @@
 
         .grid-items {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
             gap: 2px;
             margin: 2px 0;
         }
 
         .grid-item {
-            background: #4a5568;
-            border: 1px solid #718096;
+            background: #334155;
+            border: 1px solid #64748b;
             border-radius: 2px;
             padding: 2px;
             text-align: center;
-            font-size: 6px;
+            font-size: 5px;
         }
 
         .grid-item .title {
             font-weight: 600;
             color: #e2e8f0;
             margin-bottom: 1px;
-            font-size: 6px;
+            font-size: 5px;
+            line-height: 1.1;
         }
 
         .grid-item .feature {
             font-size: 5px;
             padding: 1px 2px;
             margin-bottom: 1px;
+            margin-right: 1px;
         }
 
         .status {
@@ -362,6 +395,11 @@
             margin: 2px 0;
             font-size: 6px;
             color: #c6f6d5;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            -webkit-hyphens: auto;
+            hyphens: auto;
+            line-height: 1.2;
         }
 
         .warning {
@@ -371,6 +409,11 @@
             margin: 2px 0;
             font-size: 6px;
             color: #faf089;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            -webkit-hyphens: auto;
+            hyphens: auto;
+            line-height: 1.2;
         }
 
         .info {
@@ -380,6 +423,11 @@
             margin: 2px 0;
             font-size: 6px;
             color: #bee3f8;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            -webkit-hyphens: auto;
+            hyphens: auto;
+            line-height: 1.2;
         }
 
         .channels {
@@ -407,8 +455,8 @@
         }
 
         .ref-item {
-            background: #4a5568;
-            border: 1px solid #718096;
+            background: #334155;
+            border: 1px solid #64748b;
             border-radius: 2px;
             padding: 2px;
             text-align: center;
@@ -417,7 +465,7 @@
 
         .ref-item .key {
             font-family: 'SF Mono', Monaco, monospace;
-            background: #1a202c;
+            background: #0f172a;
             color: #81c784;
             padding: 1px 2px;
             border-radius: 1px;
@@ -436,8 +484,9 @@
         }
 
         .small-text {
-            font-size: 7px;
+            font-size: 5px;
             color: #a0aec0;
+            line-height: 1.2;
         }
 
         /* Print Optimization - Enhanced for PDF */
@@ -454,7 +503,7 @@
             }
             
             html {
-                background: #1a202c !important;
+                background: #0f172a !important;
                 -webkit-print-color-adjust: exact !important;
                 print-color-adjust: exact !important;
                 width: 100% !important;
@@ -465,9 +514,9 @@
             
             body {
                 font-size: 10px !important;
-                padding: 5mm !important;
+                padding: 0 !important;
                 margin: 0 !important;
-                background: #1a202c !important;
+                background: #0f172a !important;
                 color: #e2e8f0 !important;
                 -webkit-print-color-adjust: exact !important;
                 print-color-adjust: exact !important;
@@ -484,9 +533,9 @@
                 width: 100% !important;
                 max-width: 100% !important;
                 min-width: 100% !important;
-                padding: 0 !important;
+                padding: 2mm !important;
                 margin: 0 !important;
-                background: #1a202c !important;
+                background: #0f172a !important;
                 -webkit-print-color-adjust: exact !important;
                 print-color-adjust: exact !important;
                 box-sizing: border-box !important;
@@ -501,14 +550,9 @@
                 box-sizing: border-box !important;
             }
 
-            .copilot-logo {
-                -webkit-print-color-adjust: exact !important;
-                print-color-adjust: exact !important;
-            }
-            
             .section, .compact-section {
-                background: #2d3748 !important;
-                border: 1px solid #4a5568 !important;
+                background: #1e293b !important;
+                border: 1px solid #475569 !important;
                 color: #e2e8f0 !important;
                 page-break-inside: avoid;
                 -webkit-print-color-adjust: exact !important;
@@ -525,9 +569,9 @@
             }
             
             .feature, .table .code, .ref-item .key {
-                background: #4a5568 !important;
+                background: #334155 !important;
                 color: #81c784 !important;
-                border: 1px solid #718096 !important;
+                border: 1px solid #64748b !important;
                 -webkit-print-color-adjust: exact !important;
                 print-color-adjust: exact !important;
             }
@@ -539,14 +583,14 @@
             }
 
             .table th {
-                background: #4a5568 !important;
+                background: #334155 !important;
                 color: white !important;
                 -webkit-print-color-adjust: exact !important;
                 print-color-adjust: exact !important;
             }
 
             .table td {
-                background: #2d3748 !important;
+                background: #1e293b !important;
                 color: #e2e8f0 !important;
                 -webkit-print-color-adjust: exact !important;
                 print-color-adjust: exact !important;
@@ -609,7 +653,7 @@
             }
 
             .flow {
-                background: #4a5568 !important;
+                background: #334155 !important;
                 color: #e2e8f0 !important;
                 -webkit-print-color-adjust: exact !important;
                 print-color-adjust: exact !important;
@@ -625,9 +669,9 @@
             }
 
             .grid-item {
-                background: #4a5568 !important;
+                background: #334155 !important;
                 color: #e2e8f0 !important;
-                border: 1px solid #718096 !important;
+                border: 1px solid #64748b !important;
                 -webkit-print-color-adjust: exact !important;
                 print-color-adjust: exact !important;
                 box-sizing: border-box !important;
@@ -643,9 +687,9 @@
             }
 
             .ref-item {
-                background: #4a5568 !important;
+                background: #334155 !important;
                 color: #e2e8f0 !important;
-                border: 1px solid #718096 !important;
+                border: 1px solid #64748b !important;
                 -webkit-print-color-adjust: exact !important;
                 print-color-adjust: exact !important;
                 box-sizing: border-box !important;
@@ -755,7 +799,7 @@
                 left: 0;
                 width: 100vw;
                 height: 100vh;
-                background: #1a202c !important;
+                background: #0f172a !important;
                 z-index: -1;
                 -webkit-print-color-adjust: exact !important;
                 print-color-adjust: exact !important;
@@ -786,7 +830,6 @@
 <body>
     <div class="container">
         <div class="header">
-            <div class="copilot-logo"></div>
             <div class="header-content">
                 <h1>Microsoft Copilot Studio Cheatsheet</h1>
                 <p><span class="microsoft-logo"></span>Essential AI agent development reference for developers and business users</p>
@@ -863,18 +906,19 @@
 
         <!-- Three Column Section -->
         <div class="three-col">
-            <!-- Authentication -->
+            <!-- AI Capabilities -->
             <div class="compact-section">
-                <h3 data-icon="auth">Authentication</h3>
+                <h3 data-icon="config">AI Capabilities</h3>
                 <table class="table">
-                    <tr><th>Type</th><th>Use Case</th></tr>
-                    <tr><td><span class="code">Manual</span></td><td>User login flow</td></tr>
-                    <tr><td><span class="code">Automatic</span></td><td>Teams/SP integration</td></tr>
-                    <tr><td><span class="code">OAuth 2.0</span></td><td>3rd party services</td></tr>
+                    <tr><th>Feature</th><th>Purpose</th></tr>
+                    <tr><td><span class="code">Generative Answers</span></td><td>Dynamic responses</td></tr>
+                    <tr><td><span class="code">Entity Extraction</span></td><td>Auto data parsing</td></tr>
+                    <tr><td><span class="code">Sentiment Analysis</span></td><td>Emotion detection</td></tr>
+                    <tr><td><span class="code">Language Detection</span></td><td>Multi-language support</td></tr>
                 </table>
             </div>
 
-            <!-- Channels -->
+            <!-- Deployment Channels -->
             <div class="compact-section">
                 <h3 data-icon="channels">Deployment Channels</h3>
                 <table class="table">
@@ -882,6 +926,7 @@
                     <tr><td><span class="code">Web</span></td><td>Public websites</td></tr>
                     <tr><td><span class="code">Teams</span></td><td>Internal support</td></tr>
                     <tr><td><span class="code">Mobile</span></td><td>App embedding</td></tr>
+                    <tr><td><span class="code">Bot Framework</span></td><td>Multi-channel</td></tr>
                 </table>
             </div>
 
@@ -893,12 +938,13 @@
                     <tr><td><span class="code">Resolution Rate</span></td><td>>80%</td></tr>
                     <tr><td><span class="code">CSAT Score</span></td><td>>4.0</td></tr>
                     <tr><td><span class="code">Containment</span></td><td>>70%</td></tr>
+                    <tr><td><span class="code">Avg. Session Time</span></td><td><5 min</td></tr>
                 </table>
             </div>
         </div>
 
         <!-- Connectors & Tools -->
-        <div class="two-col">
+        <div class="three-col">
             <div class="compact-section">
                 <h3 data-icon="connectors">Popular Connectors</h3>
                 <div class="grid-items">
@@ -926,25 +972,41 @@
             <div class="compact-section">
                 <h3 data-icon="config">Configuration</h3>
                 <table class="table">
-                    <tr><th>Setting</th><th>Purpose</th><th>Location</th></tr>
-                    <tr><td><span class="code">Trigger Phrases</span></td><td>Topic activation</td><td>Topic properties</td></tr>
-                    <tr><td><span class="code">Fallback</span></td><td>Unknown queries</td><td>System topics</td></tr>
-                    <tr><td><span class="code">Handoff</span></td><td>Human escalation</td><td>Agent settings</td></tr>
-                    <tr><td><span class="code">Variables</span></td><td>Data persistence</td><td>Topic nodes</td></tr>
+                    <tr><th>Setting</th><th>Purpose</th></tr>
+                    <tr><td><span class="code">Trigger Phrases</span></td><td>Topic activation</td></tr>
+                    <tr><td><span class="code">Fallback</span></td><td>Unknown queries</td></tr>
+                    <tr><td><span class="code">Handoff</span></td><td>Human escalation</td></tr>
+                    <tr><td><span class="code">Variables</span></td><td>Data persistence</td></tr>
                 </table>
+            </div>
+
+            <div class="compact-section">
+                <h3 data-icon="channels">Channels</h3>
+                <div class="channels">
+                    <div class="channel-item">🌐 Web</div>
+                    <div class="channel-item">💬 Teams</div>
+                    <div class="channel-item">📱 Mobile</div>
+                    <div class="channel-item">🤖 Bot</div>
+                    <div class="channel-item">📧 Email</div>
+                </div>
+                <div class="small-text">
+                    <span class="copilot-icon">🎯</span>• Choose based on audience<br>
+                    <span class="copilot-icon">🔧</span>• Configure per channel<br>
+                    <span class="copilot-icon">📊</span>• Monitor performance
+                </div>
             </div>
         </div>
 
         <!-- Variables & Data Types -->
-        <div class="three-col">
+        <div class="main-grid">
             <div class="compact-section">
                 <h3 data-icon="config">Variable Types & Scope</h3>
                 <table class="table">
-                    <tr><th>Type</th><th>Scope</th><th>Example</th></tr>
-                    <tr><td><span class="code">Global</span></td><td>Entire session</td><td>User.Name</td></tr>
-                    <tr><td><span class="code">Topic</span></td><td>Current topic</td><td>Var.ProductID</td></tr>
-                    <tr><td><span class="code">System</span></td><td>Built-in values</td><td>System.User.DisplayName</td></tr>
-                    <tr><td><span class="code">Environment</span></td><td>Agent settings</td><td>Environment.Region</td></tr>
+                    <tr><th>Type</th><th>Scope</th></tr>
+                    <tr><td><span class="code">Global</span></td><td>Entire session</td></tr>
+                    <tr><td><span class="code">Topic</span></td><td>Current topic</td></tr>
+                    <tr><td><span class="code">System</span></td><td>Built-in values</td></tr>
+                    <tr><td><span class="code">Environment</span></td><td>Agent settings</td></tr>
                 </table>
             </div>
 
@@ -956,7 +1018,7 @@
                     <tr><td><span class="code">If()</span></td><td>Conditional logic</td></tr>
                     <tr><td><span class="code">IsBlank()</span></td><td>Check empty values</td></tr>
                     <tr><td><span class="code">Concatenate()</span></td><td>Join strings</td></tr>
-                    <tr><td><span class="code">Upper()</span></td><td>Convert to uppercase</td></tr>
+                    <!-- <tr><td><span class="code">Upper()</span></td><td>Convert to uppercase</td></tr> -->
                 </table>
             </div>
 
@@ -969,10 +1031,17 @@
                     <tr><td><span class="code">PUT</span></td><td>Update data</td></tr>
                     <tr><td><span class="code">DELETE</span></td><td>Remove data</td></tr>
                 </table>
-                <div class="small-text">
-                    <span class="copilot-icon">🔐</span>Auth: Bearer Token, API Key, OAuth<br>
-                    <span class="copilot-icon">📝</span>Response: JSON Parse, Error Handling
-                </div>
+            </div>
+
+            <div class="compact-section">
+                <h3 data-icon="auth">Authentication</h3>
+                <table class="table">
+                    <tr><th>Method</th><th>Use Case</th></tr>
+                    <tr><td><span class="code">Manual</span></td><td>User login</td></tr>
+                    <tr><td><span class="code">Automatic</span></td><td>Teams/SP</td></tr>
+                    <tr><td><span class="code">OAuth 2.0</span></td><td>3rd party</td></tr>
+                    <tr><td><span class="code">API Key</span></td><td>Service auth</td></tr>
+                </table>
             </div>
         </div>
 
@@ -1014,22 +1083,24 @@
                     <span class="copilot-icon">🛠️</span>• Sample Templates<br>
                     <span class="copilot-icon">💡</span>• Best Practice Guides
                 </div>
+                
+                
             </div>
+
+           
         </div>
 
         <!-- Status & Best Practices -->
         <div class="main-grid">
             <div class="compact-section">
-                <h3 data-icon="states">Agent States</h3>
-                <div class="center-text">
-                    <span class="status status-success">✅ Published</span>
-                    <span class="status status-warning">⚠️ Draft</span>
-                    <span class="status status-error">❌ Failed</span>
-                </div>
+                <h3 data-icon="practices">Deployment Checklist</h3>
                 <div class="small-text">
-                    <span class="copilot-icon">🎯</span>• Use 5-10 trigger phrases<br>
-                    <span class="copilot-icon">🔄</span>• Test frequently<br>
-                    <span class="copilot-icon">🤖</span>• Enable generative answers
+                    <span class="copilot-icon">✅</span>• Test all conversation paths<br>
+                    <span class="copilot-icon">🔐</span>• Verify authentication flows<br>
+                    <span class="copilot-icon">📊</span>• Configure analytics tracking<br>
+                    <span class="copilot-icon">🔧</span>• Set up monitoring alerts<br>
+                    <span class="copilot-icon">�</span>• Document known limitations<br>
+                    <span class="copilot-icon">�</span>• Plan rollback strategy
                 </div>
             </div>
 
@@ -1090,8 +1161,8 @@
                     <tr><td><span class="code">Topic not triggered</span></td><td>Poor trigger phrases</td><td>Add more variations & synonyms</td></tr>
                     <tr><td><span class="code">Variables not saving</span></td><td>Wrong scope/type</td><td>Check variable initialization</td></tr>
                     <tr><td><span class="code">Connector timeout</span></td><td>Long API response</td><td>Implement retry logic</td></tr>
-                    <tr><td><span class="code">Authentication failed</span></td><td>Token expired</td><td>Refresh OAuth tokens</td></tr>
-                    <tr><td><span class="code">Poor NLU performance</span></td><td>Insufficient training</td><td>Add more examples & test cases</td></tr>
+                    <!-- <tr><td><span class="code">Authentication failed</span></td><td>Token expired</td><td>Refresh OAuth tokens</td></tr>
+                    <tr><td><span class="code">Poor NLU performance</span></td><td>Insufficient training</td><td>Add more examples & test cases</td></tr> -->
                 </table>
             </div>
 
@@ -1118,18 +1189,6 @@
 
         <div class="info">
             <strong>🔧 Development Tips:</strong> Use version control for topics • Create reusable components • Implement proper logging • Plan for multilingual support • Design for accessibility • Consider mobile users • Optimize for performance • Follow naming conventions
-        </div>
-
-        <!-- Microsoft 365 Integration -->
-        <div class="compact-section">
-            <h3 data-icon="enterprise">Enterprise Integration</h3>
-            <table class="table">
-                <tr><th>Service</th><th>Integration Type</th><th>Use Case</th><th>Authentication</th></tr>
-                <tr><td><span class="code"><span class="copilot-icon">📚</span>SharePoint</span></td><td>Knowledge source</td><td>Document search</td><td>Azure AD</td></tr>
-                <tr><td><span class="code"><span class="copilot-icon">💬</span>Teams</span></td><td>Native channel</td><td>Internal support</td><td>SSO</td></tr>
-                <tr><td><span class="code"><span class="copilot-icon">🔄</span>Dynamics 365</span></td><td>CRM connector</td><td>Customer service</td><td>Service principal</td></tr>
-                <tr><td><span class="code"><span class="copilot-icon">📊</span>Power BI</span></td><td>Analytics</td><td>Reporting dashboards</td><td>Azure AD</td></tr>
-            </table>
         </div>
 
         <!-- Footer -->

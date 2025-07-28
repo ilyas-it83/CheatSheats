@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Design Best Practices - Quick Reference</title>
+    <style>
+        @keyframes dotted-border {
+            0% { border-color: #ff6b6b; }
+            25% { border-color: #4ecdc4; }
+            50% { border-color: #45b7d1; }
+            75% { border-color: #f9ca24; }
+            100% { border-color: #ff6b6b; }
+        }
+
+        @keyframes gradient-shift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes wave {
+            0% { transform: translateX(0px); }
+            50% { transform: translateX(10px); }
+            100% { transform: translateX(0px); }
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes glow {
+            0% { box-shadow: 0 0 5px rgba(78, 205, 196, 0.3); }
+            50% { box-shadow: 0 0 20px rgba(78, 205, 196, 0.8); }
+            100% { box-shadow: 0 0 5px rgba(78, 205, 196, 0.3); }
+        }
+
+        @keyframes slide-in {
+            0% { transform: translateX(-5px); }
+            100% { transform: translateX(0); }
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-3px); }
+        }
+
+        @keyframes color-shift {
+            0% { color: #ff6b6b; }
+            25% { color: #4ecdc4; }
+            50% { color: #45b7d1; }
+            75% { color: #f9ca24; }
+            100% { color: #ff6b6b; }
+        }
+
+        @keyframes shimmer {
+            0% { background-position: -200px 0; }
+            100% { background-position: 200px 0; }
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            width: 100%;
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+            background: linear-gradient(135deg, #4a6fa5 0%, #5a4e75 100%);
+            color: #ffffff;
+            overflow-x: hidden;
+            overflow-y: auto;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #d4798a 0%, #c4657b 100%);
+            color: white;
+            padding: 12px 20px;
+            text-align: center;
+            border-radius: 15px;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            border: 2px solid rgba(255,255,255,0.2);
+        }
+
+        .header::before {
+            content: "🚀";
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 24px;
+        }
+
+        .header::after {
+            content: "⚡";
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 24px;
+        }
+
+        .contributor-info {
+            position: absolute;
+            top: 8px;
+            right: 50px;
+            font-size: 11px;
+            text-align: right;
+            background: rgba(255,255,255,0.2);
+            padding: 5px 10px;
+            border-radius: 20px;
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+        }
+
+        .header h1 {
+            font-size: 20px;
+            margin-bottom: 5px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 12px;
+            opacity: 0.95;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+        }
+
+        .main-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            flex: 1;
+            align-items: stretch;
+            margin-bottom: 20px;
+        }
+
+        .section {
+            background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
+            border-radius: 12px;
+            padding: 20px;
+            border: 2px solid rgba(255,255,255,0.2);
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            height: auto;
+            min-height: 400px;
+        }
+
+        .section:nth-child(1) {
+            border: 2px solid #6a9bd1;
+            animation: glow 8s ease-in-out infinite;
+        }
+
+        .section:nth-child(2) {
+            border: 2px solid #5a9aa0;
+            animation: glow 8s ease-in-out infinite 2s;
+        }
+
+        .section:nth-child(3) {
+            border: 2px solid #7ba7c7;
+            animation: glow 8s ease-in-out infinite 4s;
+        }
+
+        .section:nth-child(4) {
+            border: 2px solid #b8a082;
+            animation: glow 8s ease-in-out infinite 6s;
+        }
+
+        .section h2 {
+            font-size: 16px;
+            margin-bottom: 15px;
+            text-align: center;
+            background: linear-gradient(135deg, #8badd8 0%, #6a9bd1 100%);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 25px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            flex-shrink: 0;
+        }
+
+        .compact-section {
+            background: rgba(255,255,255,0.08);
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border: 1px solid rgba(255,255,255,0.2);
+            transition: all 0.3s ease;
+            flex-grow: 1;
+        }
+
+        .compact-section:hover {
+            background: rgba(255,255,255,0.12);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+        }
+
+        .compact-section h3 {
+            font-size: 14px;
+            margin-bottom: 10px;
+            color: #fff;
+            font-weight: 600;
+            position: relative;
+            padding-left: 25px;
+            line-height: 1.3;
+        }
+
+        .compact-section h3::before {
+            position: absolute;
+            left: 0;
+            font-size: 16px;
+        }
+
+        .compact-section h3[data-icon="channels"]::before { content: "📺"; }
+        .compact-section h3[data-icon="apps"]::before { content: "🔧"; }
+        .compact-section h3[data-icon="shortcuts"]::before { content: "⌨️"; }
+        .compact-section h3[data-icon="security"]::before { content: "🔒"; }
+        .compact-section h3[data-icon="troubleshooting"]::before { content: "🔧"; }
+        .compact-section h3[data-icon="performance"]::before { content: "⚡"; }
+        .compact-section h3[data-icon="governance"]::before { content: "⚖️"; }
+        .compact-section h3[data-icon="integration"]::before { content: "🔗"; }
+        .compact-section h3[data-icon="advanced"]::before { content: "🚀"; }
+        .compact-section h3[data-icon="training"]::before { content: "🎓"; }
+        .compact-section h3[data-icon="analytics"]::before { content: "📊"; }
+
+        .item-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .item {
+            margin-bottom: 8px;
+            font-size: 13px;
+            line-height: 1.5;
+            padding: 6px 0;
+        }
+
+        .feature {
+            background: linear-gradient(135deg, #6a9bd1 0%, #5a8bb8 100%);
+            color: white;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+            margin-right: 8px;
+            display: inline-block;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .desc {
+            color: rgba(255,255,255,0.9);
+            font-size: 12px;
+            margin-left: 4px;
+            line-height: 1.4;
+        }
+
+        .code {
+            background: rgba(0,0,0,0.4);
+            color: #7fb3d3;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-family: 'Cascadia Code', 'SF Mono', Monaco, monospace;
+            font-size: 11px;
+            border: 1px solid rgba(127, 179, 211, 0.3);
+            display: inline-block;
+            margin: 2px;
+            line-height: 1.3;
+        }
+
+        .status {
+            padding: 4px 8px;
+            border-radius: 8px;
+            font-size: 11px;
+            font-weight: 600;
+            margin-right: 8px;
+            display: inline-block;
+            min-width: 40px;
+            text-align: center;
+        }
+
+        .status-success { 
+            background: linear-gradient(135deg, #7fb3d3 0%, #6a9bd1 100%);
+            color: white;
+            box-shadow: 0 2px 8px rgba(127,179,211,0.3);
+        }
+
+        .status-warning { 
+            background: linear-gradient(135deg, #d4a574 0%, #c69c6d 100%);
+            color: white;
+            box-shadow: 0 2px 8px rgba(212,165,116,0.3);
+        }
+
+        .status-error { 
+            background: linear-gradient(135deg, #d08a8a 0%, #c47878 100%);
+            color: white;
+            box-shadow: 0 2px 8px rgba(208,138,138,0.3);
+        }
+
+        .status-info { 
+            background: linear-gradient(135deg, #7ba7c7 0%, #6a8fb5 100%);
+            color: white;
+            box-shadow: 0 2px 8px rgba(123,167,199,0.3);
+        }
+
+        .tips {
+            background: linear-gradient(135deg, #7fb3d3 0%, #6a9bd1 100%);
+            color: white;
+            padding: 12px;
+            border-radius: 8px;
+            margin: 8px 0;
+            font-size: 12px;
+            line-height: 1.6;
+            box-shadow: 0 4px 15px rgba(127,179,211,0.2);
+        }
+
+        .warning {
+            background: linear-gradient(135deg, #d4a574 0%, #c69c6d 100%);
+            color: white;
+            padding: 12px;
+            border-radius: 8px;
+            margin: 8px 0;
+            font-size: 12px;
+            line-height: 1.6;
+            box-shadow: 0 4px 15px rgba(212,165,116,0.2);
+        }
+
+        .info {
+            background: linear-gradient(135deg, #7ba7c7 0%, #6a8fb5 100%);
+            color: white;
+            padding: 12px;
+            border-radius: 8px;
+            margin: 8px 0;
+            font-size: 12px;
+            line-height: 1.6;
+            box-shadow: 0 4px 15px rgba(123,167,199,0.2);
+        }
+
+        .three-col {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 15px;
+            margin-top: 8px;
+        }
+
+        .small-text {
+            font-size: 12px;
+            color: rgba(255,255,255,0.9);
+            line-height: 1.5;
+            margin-bottom: 10px;
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 8px 0;
+            background: rgba(255,255,255,0.05);
+            border-radius: 8px;
+            overflow: hidden;
+            border: 2px solid #7fb3d3;
+            box-shadow: 0 0 15px rgba(127, 179, 211, 0.3);
+        }
+
+        .table th {
+            background: linear-gradient(135deg, #8badd8 0%, #7ba7c7 100%);
+            color: white;
+            padding: 8px 6px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 10px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+        }
+
+        .table td {
+            padding: 8px 6px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            font-size: 9px;
+            color: rgba(255,255,255,0.9);
+            background: rgba(255,255,255,0.02);
+        }
+
+        .table tr:hover {
+            background: rgba(255,255,255,0.1);
+            transform: scale(1.02);
+            transition: all 0.2s ease;
+        }
+
+        .ref-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .ref-item {
+            background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
+            border-radius: 6px;
+            padding: 8px;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.2);
+            transition: all 0.3s ease;
+        }
+
+        .ref-item:hover {
+            background: rgba(255,255,255,0.15);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .ref-item .key {
+            background: linear-gradient(135deg, #7fb3d3 0%, #6a9bd1 100%);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 10px;
+            font-weight: 600;
+            margin-bottom: 6px;
+            display: block;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+            line-height: 1.3;
+        }
+
+        .ref-item .val {
+            font-size: 10px;
+            color: rgba(255,255,255,0.8);
+            line-height: 1.4;
+        }
+
+        @media print {
+            * {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+            
+            html, body {
+                width: 100% !important;
+                height: 100% !important;
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+                color: white !important;
+            }
+            
+            .container {
+                width: 100% !important;
+                height: 100% !important;
+                padding: 10mm !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="contributor-info">
+                <div class="contributor-text">
+                    <strong>TechxConf</strong><br>
+                    <span>techxconf.com</span>
+                </div>
+            </div>
+            <div class="header-content">
+                <h1>API Design Best Practices</h1>
+                <p>Comprehensive guide for building robust, scalable, and developer-friendly APIs</p>
+            </div>
+        </div>
+
+        <div class="main-grid">
+            <!-- REST API Design -->
+            <div class="section">
+                <h2>REST API Design</h2>
+                
+                <div class="compact-section">
+                    <h3 data-icon="channels">URL Structure</h3>
+                    <div class="tips">
+                        <span class="code">GET /api/v1/users</span><br>
+                        <span class="code">POST /api/v1/users</span><br>
+                        <span class="code">GET /api/v1/users/{id}</span><br>
+                        <span class="code">PUT /api/v1/users/{id}</span><br>
+                        <span class="code">DELETE /api/v1/users/{id}</span>
+                    </div>
+                </div>
+
+                <div class="compact-section">
+                    <h3 data-icon="apps">HTTP Methods</h3>
+                    <ul class="item-list">
+                        <li class="item"><span class="feature">GET</span> <span class="desc">Retrieve data (idempotent)</span></li>
+                        <li class="item"><span class="feature">POST</span> <span class="desc">Create new resource</span></li>
+                        <li class="item"><span class="feature">PUT</span> <span class="desc">Update/replace resource</span></li>
+                        <li class="item"><span class="feature">DELETE</span> <span class="desc">Remove resource</span></li>
+                    </ul>
+                </div>
+
+                <div class="compact-section">
+                    <h3 data-icon="shortcuts">Resource Naming</h3>
+                    <div class="tips">
+                        ✅ Use nouns: <span class="code">/users</span><br>
+                        ✅ Plural forms: <span class="code">/products</span><br>
+                        ✅ Hierarchical: <span class="code">/users/123/orders</span>
+                    </div>
+                    <div class="warning">
+                        ❌ Avoid verbs: <span class="code">/getUsers</span><br>
+                        ❌ Mixed case: <span class="code">/userProfiles</span>
+                    </div>
+                </div>
+
+                <div class="compact-section">
+                    <h3 data-icon="integration">Query Parameters</h3>
+                    <div class="info">
+                        <span class="code">GET /api/users?limit=10&offset=20</span><br>
+                        <span class="code">GET /api/products?category=electronics</span><br>
+                        <span class="code">GET /api/orders?status=pending</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- HTTP Status Codes -->
+            <div class="section">
+                <h2>HTTP Status Codes</h2>
+                
+                <div class="compact-section">
+                    <h3 data-icon="security">Success (2xx)</h3>
+                    <ul class="item-list">
+                        <li class="item"><span class="status status-success">200</span> <span class="desc">OK - Request successful</span></li>
+                        <li class="item"><span class="status status-success">201</span> <span class="desc">Created - Resource created</span></li>
+                        <li class="item"><span class="status status-success">204</span> <span class="desc">No Content - Success, no body</span></li>
+                    </ul>
+                </div>
+
+                <div class="compact-section">
+                    <h3 data-icon="troubleshooting">Client Errors (4xx)</h3>
+                    <ul class="item-list">
+                        <li class="item"><span class="status status-warning">400</span> <span class="desc">Bad Request - Invalid syntax</span></li>
+                        <li class="item"><span class="status status-warning">401</span> <span class="desc">Unauthorized - Auth required</span></li>
+                        <li class="item"><span class="status status-warning">403</span> <span class="desc">Forbidden - Access denied</span></li>
+                        <li class="item"><span class="status status-warning">404</span> <span class="desc">Not Found - Resource not found</span></li>
+                        <li class="item"><span class="status status-warning">422</span> <span class="desc">Unprocessable Entity</span></li>
+                        <li class="item"><span class="status status-warning">429</span> <span class="desc">Too Many Requests</span></li>
+                    </ul>
+                </div>
+
+                <div class="compact-section">
+                    <h3 data-icon="performance">Server Errors (5xx)</h3>
+                    <ul class="item-list">
+                        <li class="item"><span class="status status-error">500</span> <span class="desc">Internal Server Error</span></li>
+                        <li class="item"><span class="status status-error">502</span> <span class="desc">Bad Gateway</span></li>
+                        <li class="item"><span class="status status-error">503</span> <span class="desc">Service Unavailable</span></li>
+                    </ul>
+                </div>
+
+                <div class="compact-section">
+                    <h3 data-icon="governance">Error Response Format</h3>
+                    <div class="info">
+                        <span class="code">
+                        {<br>
+                        &nbsp;"error": {<br>
+                        &nbsp;&nbsp;"code": "VALIDATION_ERROR",<br>
+                        &nbsp;&nbsp;"message": "Invalid input data",<br>
+                        &nbsp;&nbsp;"details": ["Email required"]<br>
+                        &nbsp;}<br>
+                        }
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Authentication & Security -->
+            <div class="section">
+                <h2>Authentication & Security</h2>
+                
+                <div class="compact-section">
+                    <h3 data-icon="security">Authentication Methods</h3>
+                    <ul class="item-list">
+                        <li class="item"><span class="feature">JWT</span> <span class="desc">Stateless token-based auth</span></li>
+                        <li class="item"><span class="feature">OAuth 2.0</span> <span class="desc">Third-party authorization</span></li>
+                        <li class="item"><span class="feature">API Keys</span> <span class="desc">Simple key-based access</span></li>
+                        <li class="item"><span class="feature">Basic Auth</span> <span class="desc">Username/password over HTTPS</span></li>
+                    </ul>
+                </div>
+
+                <div class="compact-section">
+                    <h3 data-icon="advanced">JWT Implementation</h3>
+                    <div class="info">
+                        <span class="code">Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...</span>
+                    </div>
+                </div>
+
+                <div class="compact-section">
+                    <h3 data-icon="governance">Security Best Practices</h3>
+                    <div class="tips">
+                        ✅ Always use HTTPS in production<br>
+                        ✅ Implement rate limiting<br>
+                        ✅ Validate all input data<br>
+                        ✅ Use secure headers (CORS, CSP)<br>
+                        ✅ Implement proper logging
+                    </div>
+                </div>
+
+                <div class="compact-section">
+                    <h3 data-icon="integration">CORS Configuration</h3>
+                    <div class="info">
+                        <span class="code">
+                        Access-Control-Allow-Origin: https://app.example.com<br>
+                        Access-Control-Allow-Methods: GET, POST, PUT, DELETE<br>
+                        Access-Control-Allow-Headers: Content-Type, Authorization
+                        </span>
+                    </div>
+                </div>
+
+                <div class="compact-section">
+                    <h3 data-icon="performance">Rate Limiting Headers</h3>
+                    <div class="info">
+                        <span class="code">
+                        X-RateLimit-Limit: 1000<br>
+                        X-RateLimit-Remaining: 999<br>
+                        X-RateLimit-Reset: 1640995200
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Data Formats & Pagination -->
+            <div class="section">
+                <h2>Data Formats & Pagination</h2>
+                
+                <div class="compact-section">
+                    <h3 data-icon="channels">JSON Response Structure</h3>
+                    <div class="info">
+                        <span class="code">
+                        {<br>
+                        &nbsp;"data": [...],<br>
+                        &nbsp;"meta": {<br>
+                        &nbsp;&nbsp;"total": 100,<br>
+                        &nbsp;&nbsp;"page": 1,<br>
+                        &nbsp;&nbsp;"limit": 10<br>
+                        &nbsp;}<br>
+                        }
+                        </span>
+                    </div>
+                </div>
+
+                <div class="compact-section">
+                    <h3 data-icon="apps">Pagination Strategies</h3>
+                    <ul class="item-list">
+                        <li class="item"><span class="feature">Offset-based</span> <span class="desc">?offset=20&limit=10</span></li>
+                        <li class="item"><span class="feature">Cursor-based</span> <span class="desc">?cursor=abc123&limit=10</span></li>
+                        <li class="item"><span class="feature">Page-based</span> <span class="desc">?page=2&size=10</span></li>
+                    </ul>
+                </div>
+
+                <div class="compact-section">
+                    <h3 data-icon="shortcuts">Filtering & Sorting</h3>
+                    <div class="info">
+                        <span class="code">GET /api/users?filter[status]=active&sort=-created_at</span><br>
+                        <span class="code">GET /api/products?price[gte]=10&price[lte]=100</span><br>
+                        <span class="code">GET /api/posts?search=javascript&sort=popularity</span>
+                    </div>
+                </div>
+
+                <div class="compact-section">
+                    <h3 data-icon="integration">Field Selection</h3>
+                    <div class="info">
+                        <span class="code">GET /api/users?fields=id,name,email</span><br>
+                        <span class="code">GET /api/products?include=category,reviews</span>
+                    </div>
+                </div>
+
+                <div class="compact-section">
+                    <h3 data-icon="performance">Date/Time Format</h3>
+                    <div class="tips">
+                        ✅ Use ISO 8601: <span class="code">2024-01-15T14:30:00Z</span><br>
+                        ✅ UTC timezone for consistency<br>
+                        ✅ Include timezone information
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="three-col">
+            <!-- API Versioning -->
+            <div class="compact-section">
+                <h3 data-icon="advanced">API Versioning</h3>
+                
+                <div class="small-text">
+                    <strong>Versioning Strategies:</strong><br>
+                    <span class="feature">URL Path</span> <span class="code">/api/v1/users</span><br>
+                    <span class="feature">Header</span> <span class="code">API-Version: v1</span><br>
+                    <span class="feature">Query Param</span> <span class="code">?version=v1</span><br>
+                    <span class="feature">Content Type</span> <span class="code">application/vnd.api+json;version=1</span>
+                </div>
+
+                <div class="tips">
+                    ✅ Maintain backward compatibility<br>
+                    ✅ Provide deprecation warnings<br>
+                    ✅ Document breaking changes<br>
+                    ✅ Support multiple versions temporarily
+                </div>
+
+                <div class="warning">
+                    ❌ Removing fields<br>
+                    ❌ Changing field types<br>
+                    ❌ Modifying URL structure<br>
+                    ❌ Changing response formats
+                </div>
+
+                <div class="info">
+                    <strong>Deprecation Headers:</strong><br>
+                    <span class="code">
+                    Sunset: Sat, 31 Dec 2024 23:59:59 GMT<br>
+                    Deprecation: true<br>
+                    Link: &lt;/api/v2/users&gt;; rel="successor-version"
+                    </span>
+                </div>
+            </div>
+
+            <!-- Documentation & Testing -->
+            <div class="compact-section">
+                <h3 data-icon="training">Documentation & Testing</h3>
+                
+                <div class="small-text">
+                    <strong>OpenAPI Specification:</strong><br>
+                    <span class="code">
+                    openapi: 3.0.0<br>
+                    info:<br>
+                    &nbsp;title: User API<br>
+                    &nbsp;version: 1.0.0<br>
+                    paths:<br>
+                    &nbsp;/users:<br>
+                    &nbsp;&nbsp;get:<br>
+                    &nbsp;&nbsp;&nbsp;summary: Get users
+                    </span>
+                </div>
+
+                <div class="small-text">
+                    <strong>Documentation Tools:</strong><br>
+                    <span class="feature">Swagger UI</span> <span class="desc">Interactive API docs</span><br>
+                    <span class="feature">Postman</span> <span class="desc">API testing and docs</span><br>
+                    <span class="feature">Insomnia</span> <span class="desc">API client and docs</span><br>
+                    <span class="feature">README</span> <span class="desc">Quick start guide</span>
+                </div>
+
+                <div class="tips">
+                    ✅ Unit tests for business logic<br>
+                    ✅ Integration tests for endpoints<br>
+                    ✅ Contract testing for API consumers<br>
+                    ✅ Load testing for performance
+                </div>
+
+                <div class="small-text">
+                    <strong>Monitoring & Logging:</strong><br>
+                    <span class="feature">Request ID</span> <span class="desc">Trace requests across services</span><br>
+                    <span class="feature">Response Time</span> <span class="desc">Monitor API performance</span><br>
+                    <span class="feature">Error Tracking</span> <span class="desc">Log and alert on errors</span><br>
+                    <span class="feature">Usage Analytics</span> <span class="desc">Track API consumption</span>
+                </div>
+            </div>
+
+            <!-- Quick Reference -->
+            <div class="compact-section">
+                <h3 data-icon="analytics">Quick Reference</h3>
+                
+                <table class="table">
+                    <tr>
+                        <th>Method</th>
+                        <th>Example</th>
+                        <th>Status</th>
+                    </tr>
+                    <tr>
+                        <td>POST</td>
+                        <td><span class="code">POST /api/users</span></td>
+                        <td><span class="status status-success">201</span></td>
+                    </tr>
+                    <tr>
+                        <td>GET</td>
+                        <td><span class="code">GET /api/users/123</span></td>
+                        <td><span class="status status-success">200</span></td>
+                    </tr>
+                    <tr>
+                        <td>PUT</td>
+                        <td><span class="code">PUT /api/users/123</span></td>
+                        <td><span class="status status-success">200</span></td>
+                    </tr>
+                    <tr>
+                        <td>DELETE</td>
+                        <td><span class="code">DELETE /api/users/123</span></td>
+                        <td><span class="status status-success">204</span></td>
+                    </tr>
+                    <tr>
+                        <td>LIST</td>
+                        <td><span class="code">GET /api/users?limit=10</span></td>
+                        <td><span class="status status-success">200</span></td>
+                    </tr>
+                    <tr>
+                        <td>ERROR</td>
+                        <td><span class="code">{"error": {"code": "INVALID"}}</span></td>
+                        <td><span class="status status-warning">422</span></td>
+                    </tr>
+                </table>
+
+                <div class="ref-grid">
+                    <div class="ref-item">
+                        <div class="key">JSON</div>
+                        <div class="val">application/json</div>
+                    </div>
+                    <div class="ref-item">
+                        <div class="key">XML</div>
+                        <div class="val">application/xml</div>
+                    </div>
+                    <div class="ref-item">
+                        <div class="key">FORM</div>
+                        <div class="val">multipart/form-data</div>
+                    </div>
+                    <div class="ref-item">
+                        <div class="key">CACHE</div>
+                        <div class="val">Cache-Control: no-cache</div>
+                    </div>
+                    <div class="ref-item">
+                        <div class="key">ETAG</div>
+                        <div class="val">ETag: "abc123"</div>
+                    </div>
+                    <div class="ref-item">
+                        <div class="key">MODIFIED</div>
+                        <div class="val">Last-Modified: Wed, 21 Oct 2024</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -70,16 +70,24 @@
 
         .grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 8px;
-            margin-bottom: 8px;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 6px;
+            margin-bottom: 6px;
         }
 
-        .grid-3 {
+        .grid-2 {
             display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 6px;
-            margin-bottom: 8px;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-bottom: 6px;
+        }
+
+        .span-2 {
+            grid-column: span 2;
+        }
+
+        .span-3 {
+            grid-column: span 3;
         }
 
         .full-width {
@@ -204,12 +212,6 @@
             font-size: 8px;
         }
 
-        .two-col {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4px;
-        }
-
         .footer {
             background: #2d3748;
             color: #a0aec0;
@@ -253,16 +255,7 @@
 
         <div class="grid">
             <div class="section">
-                <h2><span class="icon">🔄</span>CI/CD Pipeline Setup</h2>
-                <div class="code">
-# GitHub Actions Workflow
-name: AI Agent Deploy
-on:
-  push:
-    branches: [main]
-  pull_request:
-    branches: [main]
-</div>
+                <h2><span class="icon">🔄</span>CI/CD Pipeline</h2>
                 <div class="workflow">
                     <div class="workflow-step">1. <code>Build</code> → Test → Package</div>
                     <div class="workflow-step">2. <code>Security</code> → Scan → Validate</div>
@@ -278,35 +271,19 @@ on:
 
             <div class="section">
                 <h2><span class="icon">🐳</span>Containerization</h2>
-                <div class="code">
-# Dockerfile for AI Agent
-FROM python:3.9-slim
-WORKDIR /app
-COPY requirements.txt .
-RUN pip install -r requirements.txt
-COPY . .
-CMD ["python", "agent.py"]
-</div>
-                <div class="two-col">
-                    <div>
-                        <h3>Docker Best Practices</h3>
-                        <ul class="list">
-                            <li>Multi-stage builds</li>
-                            <li>Non-root user</li>
-                            <li>Minimal base images</li>
-                            <li>Layer caching</li>
-                        </ul>
-                    </div>
-                    <div>
-                        <h3>Commands</h3>
-                        <div class="cmd">docker build -t ai-agent:v1.0 .</div>
-                        <div class="cmd">docker run -p 8080:8080 ai-agent:v1.0</div>
-                    </div>
-                </div>
+                <h3>Docker Best Practices</h3>
+                <ul class="list">
+                    <li>Multi-stage builds</li>
+                    <li>Non-root user</li>
+                    <li>Minimal base images</li>
+                    <li>Layer caching</li>
+                    <li>Health checks</li>
+                </ul>
+                <h3>Commands</h3>
+                <div class="cmd">docker build -t ai-agent:v1.0 .</div>
+                <div class="cmd">docker run -p 8080:8080 ai-agent:v1.0</div>
             </div>
-        </div>
 
-        <div class="grid-3">
             <div class="section">
                 <h2><span class="icon">📊</span>Monitoring</h2>
                 <table>
@@ -316,12 +293,9 @@ CMD ["python", "agent.py"]
                     <tr><td>Resource Usage</td><td>DataDog</td></tr>
                     <tr><td>Model Performance</td><td>MLflow</td></tr>
                 </table>
-                <div class="code">
-# Prometheus config
-- job_name: 'ai-agent'
-  static_configs:
-    - targets: ['localhost:8080']
-</div>
+                <div class="badge info">Alerts</div>
+                <div class="badge warning">Dashboards</div>
+                <div class="badge success">SLIs/SLOs</div>
             </div>
 
             <div class="section">
@@ -335,14 +309,12 @@ CMD ["python", "agent.py"]
                     <li>Input validation</li>
                     <li>Rate limiting</li>
                     <li>Audit logging</li>
+                    <li>RBAC policies</li>
                 </ul>
-                <div class="code">
-# Environment variables
-AI_API_KEY=${SECRET_KEY}
-MODEL_PATH=/secure/models/
-</div>
             </div>
+        </div>
 
+        <div class="grid">
             <div class="section">
                 <h2><span class="icon">🚀</span>Deployment Strategies</h2>
                 <table>
@@ -352,43 +324,12 @@ MODEL_PATH=/secure/models/
                     <tr><td>Rolling</td><td>Medium</td></tr>
                     <tr><td>A/B Testing</td><td>High</td></tr>
                 </table>
-                <div class="code">
-# Kubernetes deployment
-replicas: 3
-strategy:
-  type: RollingUpdate
-  rollingUpdate:
-    maxSurge: 1
-    maxUnavailable: 1
-</div>
+                <h3>Rollback Strategy</h3>
+                <div class="cmd">kubectl rollout undo deployment/ai-agent</div>
             </div>
-        </div>
 
-        <div class="grid">
             <div class="section">
                 <h2><span class="icon">🧪</span>Testing Framework</h2>
-                <div class="two-col">
-                    <div>
-                        <h3>Unit Tests</h3>
-                        <div class="code">
-# pytest for AI agent
-def test_agent_response():
-    agent = AIAgent()
-    response = agent.process("test")
-    assert response is not None
-</div>
-                    </div>
-                    <div>
-                        <h3>Integration Tests</h3>
-                        <div class="code">
-# Load testing
-def test_agent_load():
-    for i in range(1000):
-        response = agent.process(f"test_{i}")
-        assert response.status == 200
-</div>
-                    </div>
-                </div>
                 <table>
                     <tr><th>Test Type</th><th>Tool</th><th>Coverage</th></tr>
                     <tr><td>Unit</td><td>pytest</td><td>90%+</td></tr>
@@ -396,99 +337,168 @@ def test_agent_load():
                     <tr><td>Load</td><td>Locust</td><td>1000 RPS</td></tr>
                     <tr><td>Model</td><td>MLflow</td><td>Custom</td></tr>
                 </table>
+                <h3>Test Commands</h3>
+                <div class="cmd">pytest tests/ -v --cov=agent</div>
             </div>
 
             <div class="section">
                 <h2><span class="icon">⚙️</span>Infrastructure as Code</h2>
-                <div class="code">
-# Terraform for AWS
-resource "aws_ecs_service" "ai_agent" {
-  name            = "ai-agent"
-  cluster         = aws_ecs_cluster.main.id
-  task_definition = aws_ecs_task_definition.ai_agent.arn
-  desired_count   = 3
-}
-</div>
-                <div class="code">
-# Ansible playbook
-- name: Deploy AI Agent
-  hosts: production
-  tasks:
-    - name: Pull latest image
-      docker_image:
-        name: ai-agent:latest
-        source: pull
-</div>
                 <table>
                     <tr><th>Tool</th><th>Use Case</th></tr>
                     <tr><td>Terraform</td><td>Cloud resources</td></tr>
                     <tr><td>Ansible</td><td>Configuration</td></tr>
                     <tr><td>Helm</td><td>K8s packages</td></tr>
+                    <tr><td>Pulumi</td><td>Modern IaC</td></tr>
+                </table>
+                <h3>Terraform Commands</h3>
+                <div class="cmd">terraform plan -out=tfplan</div>
+                <div class="cmd">terraform apply tfplan</div>
+            </div>
+
+            <div class="section">
+                <h2><span class="icon">🔧</span>Environment Config</h2>
+                <h3>Environment Variables</h3>
+                <div class="code">
+AI_API_KEY=${SECRET_KEY}
+MODEL_PATH=/secure/models/
+LOG_LEVEL=INFO
+REPLICAS=3
+</div>
+                <h3>Config Management</h3>
+                <ul class="list">
+                    <li>ConfigMaps (K8s)</li>
+                    <li>Secrets (K8s)</li>
+                    <li>Vault (HashiCorp)</li>
+                    <li>Parameter Store (AWS)</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="grid">
+            <div class="section">
+                <h2><span class="icon">🐋</span>Docker Commands</h2>
+                <div class="cmd">docker build -t ai-agent .</div>
+                <div class="cmd">docker run -d -p 8080:8080 ai-agent</div>
+                <div class="cmd">docker logs ai-agent</div>
+                <div class="cmd">docker exec -it ai-agent /bin/bash</div>
+                <div class="cmd">docker stop ai-agent</div>
+                <div class="cmd">docker system prune -a</div>
+            </div>
+
+            <div class="section">
+                <h2><span class="icon">☸️</span>Kubernetes Commands</h2>
+                <div class="cmd">kubectl apply -f deployment.yaml</div>
+                <div class="cmd">kubectl get pods -l app=ai-agent</div>
+                <div class="cmd">kubectl logs -f deployment/ai-agent</div>
+                <div class="cmd">kubectl scale deployment ai-agent --replicas=5</div>
+                <div class="cmd">kubectl rollout status deployment/ai-agent</div>
+                <div class="cmd">kubectl describe pod ai-agent-xxx</div>
+            </div>
+
+            <div class="section">
+                <h2><span class="icon">📈</span>Monitoring Commands</h2>
+                <div class="cmd">curl -s localhost:8080/health</div>
+                <div class="cmd">kubectl top pods</div>
+                <div class="cmd">docker stats ai-agent</div>
+                <div class="cmd">aws cloudwatch get-metric-statistics</div>
+                <div class="cmd">prometheus query up{job="ai-agent"}</div>
+                <div class="cmd">grafana-cli admin reset-admin-password</div>
+            </div>
+
+            <div class="section">
+                <h2><span class="icon">🔍</span>Debugging & Troubleshooting</h2>
+                <h3>Common Issues</h3>
+                <ul class="list">
+                    <li>Memory leaks</li>
+                    <li>Connection timeouts</li>
+                    <li>Model loading failures</li>
+                    <li>API rate limits</li>
+                    <li>Resource constraints</li>
+                </ul>
+                <h3>Debug Commands</h3>
+                <div class="cmd">kubectl describe deployment ai-agent</div>
+                <div class="cmd">kubectl get events --sort-by=.metadata.creationTimestamp</div>
+            </div>
+        </div>
+
+        <div class="grid-2">
+            <div class="section">
+                <h2><span class="icon">🏗️</span>Build Pipeline Stages</h2>
+                <table>
+                    <tr>
+                        <th>Stage</th>
+                        <th>Actions</th>
+                        <th>Tools</th>
+                        <th>Duration</th>
+                    </tr>
+                    <tr>
+                        <td><span class="badge">Build</span></td>
+                        <td>Code → Test → Package → Security Scan</td>
+                        <td>Docker, GitHub Actions, SonarQube</td>
+                        <td>5-10 min</td>
+                    </tr>
+                    <tr>
+                        <td><span class="badge success">Deploy</span></td>
+                        <td>Image → Registry → Staging → Production</td>
+                        <td>Kubernetes, Helm, Terraform</td>
+                        <td>3-5 min</td>
+                    </tr>
+                    <tr>
+                        <td><span class="badge info">Monitor</span></td>
+                        <td>Logs → Metrics → Alerts → Dashboards</td>
+                        <td>Prometheus, Grafana, ELK Stack</td>
+                        <td>Ongoing</td>
+                    </tr>
+                    <tr>
+                        <td><span class="badge warning">Scale</span></td>
+                        <td>Load Test → Auto-scale → Optimize</td>
+                        <td>HPA, Locust, JMeter</td>
+                        <td>Variable</td>
+                    </tr>
                 </table>
             </div>
-        </div>
 
-        <div class="section full-width">
-            <h2><span class="icon">🛠️</span>Essential Tools & Commands</h2>
-            <div class="grid-3">
-                <div>
-                    <h3>Docker Commands</h3>
-                    <div class="cmd">docker build -t ai-agent .</div>
-                    <div class="cmd">docker run -d -p 8080:8080 ai-agent</div>
-                    <div class="cmd">docker logs ai-agent</div>
-                    <div class="cmd">docker exec -it ai-agent /bin/bash</div>
-                </div>
-                <div>
-                    <h3>Kubernetes Commands</h3>
-                    <div class="cmd">kubectl apply -f deployment.yaml</div>
-                    <div class="cmd">kubectl get pods -l app=ai-agent</div>
-                    <div class="cmd">kubectl logs -f deployment/ai-agent</div>
-                    <div class="cmd">kubectl scale deployment ai-agent --replicas=5</div>
-                </div>
-                <div>
-                    <h3>Monitoring Commands</h3>
-                    <div class="cmd">curl -s localhost:8080/health</div>
-                    <div class="cmd">kubectl top pods</div>
-                    <div class="cmd">docker stats ai-agent</div>
-                    <div class="cmd">aws cloudwatch get-metric-statistics</div>
-                </div>
+            <div class="section">
+                <h2><span class="icon">📊</span>Key Performance Metrics</h2>
+                <table>
+                    <tr>
+                        <th>Metric</th>
+                        <th>Target</th>
+                        <th>Alert Threshold</th>
+                        <th>Tool</th>
+                    </tr>
+                    <tr>
+                        <td>Response Time</td>
+                        <td>&lt; 200ms</td>
+                        <td>&gt; 500ms</td>
+                        <td>Prometheus</td>
+                    </tr>
+                    <tr>
+                        <td>Error Rate</td>
+                        <td>&lt; 0.1%</td>
+                        <td>&gt; 1%</td>
+                        <td>Grafana</td>
+                    </tr>
+                    <tr>
+                        <td>Throughput</td>
+                        <td>1000 RPS</td>
+                        <td>&lt; 500 RPS</td>
+                        <td>LoadRunner</td>
+                    </tr>
+                    <tr>
+                        <td>CPU Usage</td>
+                        <td>&lt; 70%</td>
+                        <td>&gt; 80%</td>
+                        <td>K8s Metrics</td>
+                    </tr>
+                    <tr>
+                        <td>Memory Usage</td>
+                        <td>&lt; 80%</td>
+                        <td>&gt; 90%</td>
+                        <td>Datadog</td>
+                    </tr>
+                </table>
             </div>
-        </div>
-
-        <div class="section full-width">
-            <h2><span class="icon">📋</span>Quick Reference</h2>
-            <table>
-                <tr>
-                    <th>Phase</th>
-                    <th>Actions</th>
-                    <th>Tools</th>
-                    <th>Metrics</th>
-                </tr>
-                <tr>
-                    <td><span class="badge">Build</span></td>
-                    <td>Code → Test → Package → Security Scan</td>
-                    <td>Docker, GitHub Actions, SonarQube</td>
-                    <td>Build Time, Test Coverage, Vulnerabilities</td>
-                </tr>
-                <tr>
-                    <td><span class="badge success">Deploy</span></td>
-                    <td>Image → Registry → Staging → Production</td>
-                    <td>Kubernetes, Helm, Terraform</td>
-                    <td>Deployment Time, Success Rate</td>
-                </tr>
-                <tr>
-                    <td><span class="badge info">Monitor</span></td>
-                    <td>Logs → Metrics → Alerts → Dashboards</td>
-                    <td>Prometheus, Grafana, ELK Stack</td>
-                    <td>Latency, Error Rate, Throughput</td>
-                </tr>
-                <tr>
-                    <td><span class="badge warning">Scale</span></td>
-                    <td>Load Test → Auto-scale → Optimize</td>
-                    <td>HPA, Locust, JMeter</td>
-                    <td>RPS, Response Time, Resource Usage</td>
-                </tr>
-            </table>
         </div>
 
         <div class="footer">
