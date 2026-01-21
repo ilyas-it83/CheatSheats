@@ -16,13 +16,13 @@
     --icon-size-large: 14px;
     
     /* Microsoft Teams Colors */
-    --color-background: #1b1b1b;
-    --color-text: #ffffff;
-    --color-primary: #464775;
-    --color-secondary: #292841;
-    --color-border: #605e5c;
-    --color-accent: #a19f9d;
-    --color-muted: #8a8886;
+    --color-background: var(--theme-background, #1b1b1b);
+    --color-text: var(--theme-text, #ffffff);
+    --color-primary: var(--theme-primary, #464775);
+    --color-secondary: var(--theme-secondary, #292841);
+    --color-border: var(--theme-border, #605e5c);
+    --color-accent: var(--theme-accent, #a19f9d);
+    --color-muted: var(--theme-muted, #8a8886);
     --teams-purple: #464775;
     --teams-blue: #0078d4;
     --teams-green: #237b4b;
@@ -72,7 +72,7 @@ body {
 }
 
 .header {
-    background: linear-gradient(135deg, var(--teams-purple) 0%, var(--teams-blue) 100%);
+    background: linear-gradient(135deg, var(--theme-header-start, var(--teams-purple)) 0%, var(--theme-header-end, var(--teams-blue)) 100%);
     color: white;
     padding: 2px 6px;
     text-align: center;
@@ -169,22 +169,22 @@ body {
 
 /* Color-coded sections with Teams branding */
 .section:nth-child(1) {
-    background: #1a237e; /* Deep purple for Setup */
+    background: var(--theme-section-1, #1a237e); /* Deep purple for Setup */
     border-color: var(--teams-purple);
 }
 
 .section:nth-child(2) {
-    background: #0d47a1; /* Deep blue for Communication */
+    background: var(--theme-section-2, #0d47a1); /* Deep blue for Communication */
     border-color: var(--teams-blue);
 }
 
 .section:nth-child(3) {
-    background: #1b5e20; /* Deep green for Meetings */
+    background: var(--theme-section-3, #1b5e20); /* Deep green for Meetings */
     border-color: var(--teams-green);
 }
 
 .section:nth-child(4) {
-    background: #bf360c; /* Deep orange for Files */
+    background: var(--theme-section-4, #bf360c); /* Deep orange for Files */
     border-color: var(--teams-orange);
 }
 
@@ -193,7 +193,7 @@ body {
     color: white;
     margin-bottom: 4px;
     margin-top: 2px;
-    background: var(--teams-purple);
+    background: var(--theme-primary, var(--teams-purple));
     padding: 2px 4px;
     border-radius: 2px;
     text-align: center;
@@ -328,28 +328,28 @@ body {
 .compact-section:has(h3[data-icon="channels"]),
 .compact-section:has(h3[data-icon="apps"]),
 .compact-section:has(h3[data-icon="shortcuts"]) {
-    background: #1a237e; /* Purple tint for core features */
+    background: var(--theme-section-1, #1a237e); /* Purple tint for core features */
     border-color: var(--teams-purple);
 }
 
 .compact-section:has(h3[data-icon="security"]),
 .compact-section:has(h3[data-icon="governance"]),
 .compact-section:has(h3[data-icon="advanced"]) {
-    background: #0d47a1; /* Blue tint for security/governance */
+    background: var(--theme-section-2, #0d47a1); /* Blue tint for security/governance */
     border-color: var(--teams-blue);
 }
 
 .compact-section:has(h3[data-icon="mobile"]),
 .compact-section:has(h3[data-icon="integration"]),
 .compact-section:has(h3[data-icon="performance"]) {
-    background: #1b5e20; /* Green tint for integration/performance */
+    background: var(--theme-section-3, #1b5e20); /* Green tint for integration/performance */
     border-color: var(--teams-green);
 }
 
 .compact-section:has(h3[data-icon="troubleshooting"]),
 .compact-section:has(h3[data-icon="analytics"]),
 .compact-section:has(h3[data-icon="training"]) {
-    background: #bf360c; /* Orange tint for support/analytics */
+    background: var(--theme-section-4, #bf360c); /* Orange tint for support/analytics */
     border-color: var(--teams-orange);
 }
 
@@ -416,7 +416,7 @@ body {
 }
 
 .flow-step {
-    background: var(--teams-purple);
+    background: var(--theme-primary, var(--teams-purple));
     color: white;
     padding: 2px 4px;
     border-radius: 2px;
@@ -481,12 +481,12 @@ body {
 .status-error { background: var(--teams-orange); color: white; }
 
 .tips {
-    background: var(--teams-green);
-    border-left: 3px solid #4caf50;
+    background: var(--theme-tips-bg, var(--teams-green));
+    border-left: 3px solid var(--theme-tips-border, #4caf50);
     padding: 3px 4px;
     margin: 2px 0;
     font-size: var(--font-size-medium);
-    color: white;
+    color: var(--theme-tips-text, white);
     word-wrap: break-word;
     overflow-wrap: break-word;
     -webkit-hyphens: auto;
@@ -495,12 +495,12 @@ body {
 }
 
 .warning {
-    background: var(--teams-orange);
-    border-left: 3px solid #ff9800;
+    background: var(--theme-warning-bg, var(--teams-orange));
+    border-left: 3px solid var(--theme-warning-border, #ff9800);
     padding: 3px 4px;
     margin: 2px 0;
     font-size: var(--font-size-medium);
-    color: white;
+    color: var(--theme-warning-text, white);
     word-wrap: break-word;
     overflow-wrap: break-word;
     -webkit-hyphens: auto;
@@ -509,12 +509,12 @@ body {
 }
 
 .info {
-    background: var(--teams-blue);
-    border-left: 3px solid #2196f3;
+    background: var(--theme-info-bg, var(--teams-blue));
+    border-left: 3px solid var(--theme-info-border, #2196f3);
     padding: 3px 4px;
     margin: 2px 0;
     font-size: var(--font-size-medium);
-    color: white;
+    color: var(--theme-info-text, white);
     word-wrap: break-word;
     overflow-wrap: break-word;
     -webkit-hyphens: auto;
@@ -638,7 +638,7 @@ body {
     }
     
     .header {
-        background: linear-gradient(135deg, var(--teams-purple) 0%, var(--teams-blue) 100%) !important;
+        background: linear-gradient(135deg, var(--theme-header-start, var(--teams-purple)) 0%, var(--theme-header-end, var(--teams-blue)) 100%) !important;
         color: white !important;
         -webkit-print-color-adjust: exact !important;
         print-color-adjust: exact !important;
@@ -686,46 +686,46 @@ body {
     }
 
     .section:nth-child(1) {
-        background: #1a237e !important;
+        background: var(--theme-section-1, #1a237e) !important;
         -webkit-print-color-adjust: exact !important;
         print-color-adjust: exact !important;
     }
 
     .section:nth-child(2) {
-        background: #0d47a1 !important;
+        background: var(--theme-section-2, #0d47a1) !important;
         -webkit-print-color-adjust: exact !important;
         print-color-adjust: exact !important;
     }
 
     .section:nth-child(3) {
-        background: #1b5e20 !important;
+        background: var(--theme-section-3, #1b5e20) !important;
         -webkit-print-color-adjust: exact !important;
         print-color-adjust: exact !important;
     }
 
     .section:nth-child(4) {
-        background: #bf360c !important;
+        background: var(--theme-section-4, #bf360c) !important;
         -webkit-print-color-adjust: exact !important;
         print-color-adjust: exact !important;
     }
 
     .tips {
-        background: var(--teams-green) !important;
-        color: white !important;
+        background: var(--theme-tips-bg, var(--teams-green)) !important;
+        color: var(--theme-tips-text, white) !important;
         -webkit-print-color-adjust: exact !important;
         print-color-adjust: exact !important;
     }
 
     .warning {
-        background: var(--teams-orange) !important;
-        color: white !important;
+        background: var(--theme-warning-bg, var(--teams-orange)) !important;
+        color: var(--theme-warning-text, white) !important;
         -webkit-print-color-adjust: exact !important;
         print-color-adjust: exact !important;
     }
 
     .info {
-        background: var(--teams-blue) !important;
-        color: white !important;
+        background: var(--theme-info-bg, var(--teams-blue)) !important;
+        color: var(--theme-info-text, white) !important;
         -webkit-print-color-adjust: exact !important;
         print-color-adjust: exact !important;
     }

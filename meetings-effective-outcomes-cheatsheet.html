@@ -4,9 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Meetings for Effective Outcomes Cheatsheet</title>
+    <link rel="stylesheet" href="styles/themes.css">
+    <link rel="stylesheet" href="styles/theme-switcher.css">
     <link rel="stylesheet" href="styles/styles.css">
 </head>
 <body>
+    <div class="theme-switcher">
+        <label for="theme-selector">🎨 Theme</label>
+        <select id="theme-selector" aria-label="Select theme">
+            <option value="ocean">Ocean</option>
+            <option value="violet">Violet</option>
+            <option value="solar">Solar</option>
+            <option value="forest">Forest</option>
+        </select>
+    </div>
     <div class="container">
         <div class="header">
             <div class="header-content">
@@ -392,5 +403,6 @@
 
        
     </div>
+    <script src="scripts/theme-switcher.js"></script>
 </body>
 </html>
