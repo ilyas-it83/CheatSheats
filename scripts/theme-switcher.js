@@ -11,9 +11,11 @@
     const initialTheme = storedTheme || defaultTheme;
 
     const applyTheme = (theme) => {
-        document.documentElement.setAttribute('data-theme', theme);
-        if (select.value !== theme) {
-            select.value = theme;
+        const optionExists = Array.from(select.options).some((option) => option.value === theme);
+        const resolvedTheme = optionExists ? theme : defaultTheme;
+        document.documentElement.setAttribute('data-theme', resolvedTheme);
+        if (select.value !== resolvedTheme) {
+            select.value = resolvedTheme;
         }
     };
 
