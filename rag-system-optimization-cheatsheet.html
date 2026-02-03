@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RAG System Optimization Cheatsheet</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-size: 10px;
+            line-height: 1.3;
+            color: #e2e8f0;
+            background: #1a202c;
+            padding: 10px;
+            max-width: 210mm;
+            margin: 0 auto;
+            print-color-adjust: exact;
+        }
+
+        .container {
+            max-width: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #0066cc 0%, #004499 100%);
+            color: white;
+            padding: 6px 10px;
+            text-align: center;
+            margin-bottom: 8px;
+            border-radius: 4px;
+            position: relative;
+        }
+
+        .header::before {
+            content: "🧠";
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 18px;
+        }
+
+        .header::after {
+            content: "🔍";
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 14px;
+        }
+
+        .header h1 {
+            font-size: 16px;
+            margin-bottom: 2px;
+        }
+
+        .header p {
+            font-size: 9px;
+            opacity: 0.9;
+        }
+
+        .main-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+            gap: 6px;
+            margin-bottom: 8px;
+        }
+
+        .section {
+            background: #2d3748;
+            border: 1px solid #4a5568;
+            border-radius: 3px;
+            padding: 6px;
+        }
+
+        .section h2 {
+            font-size: 10px;
+            color: white;
+            margin-bottom: 4px;
+            background: #0066cc;
+            padding: 2px 4px;
+            border-radius: 2px;
+            text-align: center;
+            position: relative;
+        }
+
+        .section h2::before {
+            margin-right: 4px;
+            font-size: 10px;
+        }
+
+        .section:nth-child(1) h2::before { content: "🏗️"; }
+        .section:nth-child(2) h2::before { content: "📄"; }
+        .section:nth-child(3) h2::before { content: "🔢"; }
+        .section:nth-child(4) h2::before { content: "🔍"; }
+
+        .item-list {
+            list-style: none;
+        }
+
+        .item {
+            margin-bottom: 2px;
+            font-size: 8px;
+        }
+
+        .feature {
+            font-family: 'SF Mono', Monaco, monospace;
+            background: #4a5568;
+            color: #81c784;
+            padding: 1px 3px;
+            border-radius: 2px;
+            display: inline-block;
+            margin-bottom: 1px;
+            font-size: 7px;
+            position: relative;
+        }
+
+        .feature::before {
+            content: "▶";
+            color: #0066cc;
+            margin-right: 2px;
+            font-size: 6px;
+        }
+
+        .metric {
+            font-family: 'SF Mono', Monaco, monospace;
+            background: #2d5a27;
+            color: #81c784;
+            padding: 1px 3px;
+            border-radius: 2px;
+            display: inline-block;
+            margin-bottom: 1px;
+            font-size: 7px;
+            font-weight: 600;
+        }
+
+        .code {
+            font-family: 'SF Mono', Monaco, monospace;
+            background: #4a5568;
+            color: #ffd700;
+            padding: 1px 3px;
+            border-radius: 2px;
+            display: inline-block;
+            font-size: 7px;
+        }
+
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6px;
+            margin-bottom: 6px;
+        }
+
+        .three-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 6px;
+            margin-bottom: 6px;
+        }
+
+        .compact-section {
+            background: #2d3748;
+            border: 1px solid #4a5568;
+            border-radius: 3px;
+            padding: 6px;
+        }
+
+        .compact-section h3 {
+            font-size: 10px;
+            color: white;
+            margin-bottom: 4px;
+            background: #0066cc;
+            padding: 2px 4px;
+            border-radius: 2px;
+            text-align: center;
+            position: relative;
+        }
+
+        .compact-section h3::before {
+            margin-right: 4px;
+            font-size: 10px;
+        }
+
+        .compact-section h3[data-icon="generation"]::before { content: "🎯"; }
+        .compact-section h3[data-icon="evaluation"]::before { content: "📊"; }
+        .compact-section h3[data-icon="issues"]::before { content: "⚠️"; }
+        .compact-section h3[data-icon="tools"]::before { content: "🔧"; }
+        .compact-section h3[data-icon="optimization"]::before { content: "⚡"; }
+        .compact-section h3[data-icon="monitoring"]::before { content: "📈"; }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 7px;
+        }
+
+        .table th,
+        .table td {
+            border: 1px solid #4a5568;
+            padding: 2px 3px;
+            text-align: left;
+        }
+
+        .table th {
+            background: #4a5568;
+            color: white;
+            font-weight: 600;
+        }
+
+        .table tr:nth-child(even) {
+            background: #2d3748;
+        }
+
+        .table tr:nth-child(odd) {
+            background: #1a202c;
+        }
+
+        .small-text {
+            font-size: 7px;
+            line-height: 1.2;
+        }
+
+        .center-text {
+            text-align: center;
+            margin-bottom: 4px;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 1px 3px;
+            border-radius: 2px;
+            font-size: 6px;
+            font-weight: 600;
+            margin: 0 2px;
+        }
+
+        .status-success {
+            background: #2d5a27;
+            color: #81c784;
+        }
+
+        .status-warning {
+            background: #8b5a00;
+            color: #ffd700;
+        }
+
+        .status-error {
+            background: #8b2635;
+            color: #ff6b6b;
+        }
+
+        .tips {
+            background: #2d4a2d;
+            border: 1px solid #4a7c59;
+            border-radius: 3px;
+            padding: 4px 6px;
+            margin-bottom: 4px;
+            font-size: 7px;
+        }
+
+        .warning {
+            background: #4a3d2d;
+            border: 1px solid #7c6659;
+            border-radius: 3px;
+            padding: 4px 6px;
+            margin-bottom: 4px;
+            font-size: 7px;
+        }
+
+        .info {
+            background: #2d3748;
+            border: 1px solid #4a5568;
+            border-radius: 3px;
+            padding: 4px 6px;
+            text-align: center;
+            font-size: 7px;
+        }
+
+        .ref-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 3px;
+            margin-bottom: 6px;
+        }
+
+        .ref-item {
+            background: #2d3748;
+            border: 1px solid #4a5568;
+            border-radius: 2px;
+            padding: 2px 3px;
+            text-align: center;
+            font-size: 6px;
+        }
+
+        .ref-item .key {
+            font-weight: 600;
+            color: #0066cc;
+            display: block;
+        }
+
+        .ref-item .val {
+            color: #e2e8f0;
+            font-size: 5px;
+        }
+
+        @media print {
+            body {
+                background: #1a202c !important;
+                color: #e2e8f0 !important;
+                padding: 5mm !important;
+                max-width: 200mm !important;
+            }
+            
+            .header {
+                background: linear-gradient(135deg, #0066cc 0%, #004499 100%) !important;
+                color: white !important;
+                print-color-adjust: exact !important;
+            }
+            
+            .section, .compact-section {
+                background: #2d3748 !important;
+                border: 1px solid #4a5568 !important;
+                print-color-adjust: exact !important;
+            }
+            
+            .section h2, .compact-section h3 {
+                background: #0066cc !important;
+                color: white !important;
+                print-color-adjust: exact !important;
+            }
+            
+            .table th {
+                background: #4a5568 !important;
+                color: white !important;
+                print-color-adjust: exact !important;
+            }
+            
+            .table tr:nth-child(even) {
+                background: #2d3748 !important;
+                print-color-adjust: exact !important;
+            }
+            
+            .table tr:nth-child(odd) {
+                background: #1a202c !important;
+                print-color-adjust: exact !important;
+            }
+            
+            * {
+                print-color-adjust: exact !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>RAG System Optimization</h1>
+            <p>Best practices for Retrieval-Augmented Generation systems - Data retrieval accuracy & response relevance</p>
+        </div>
+
+        <!-- Main Grid -->
+        <div class="main-grid">
+            <div class="section">
+                <h2>Architecture</h2>
+                <ul class="item-list">
+                    <li class="item"><span class="feature">Vector Database</span> - Semantic search</li>
+                    <li class="item"><span class="feature">Embedding Model</span> - Text-to-vector</li>
+                    <li class="item"><span class="feature">Retrieval Engine</span> - Query matching</li>
+                    <li class="item"><span class="feature">LLM Generator</span> - Response synthesis</li>
+                    <li class="item"><span class="feature">Reranking</span> - Result optimization</li>
+                    <li class="item"><span class="feature">Context Window</span> - Token management</li>
+                </ul>
+            </div>
+
+            <div class="section">
+                <h2>Data Preprocessing</h2>
+                <ul class="item-list">
+                    <li class="item"><span class="feature">Chunking</span> - 512-1024 tokens</li>
+                    <li class="item"><span class="feature">Overlap</span> - 50-200 tokens</li>
+                    <li class="item"><span class="feature">Metadata</span> - Source, date, type</li>
+                    <li class="item"><span class="feature">Clean Text</span> - Remove noise</li>
+                    <li class="item"><span class="feature">Hierarchical</span> - Section-aware</li>
+                    <li class="item"><span class="feature">Deduplication</span> - Remove duplicates</li>
+                </ul>
+            </div>
+
+            <div class="section">
+                <h2>Embeddings</h2>
+                <ul class="item-list">
+                    <li class="item"><span class="feature">OpenAI</span> - text-embedding-3-large</li>
+                    <li class="item"><span class="feature">Cohere</span> - embed-multilingual-v3</li>
+                    <li class="item"><span class="feature">Sentence-T5</span> - all-MiniLM-L6-v2</li>
+                    <li class="item"><span class="feature">BGE</span> - bge-large-en-v1.5</li>
+                    <li class="item"><span class="feature">E5</span> - multilingual-e5-large</li>
+                    <li class="item"><span class="feature">Fine-tuning</span> - Domain-specific</li>
+                </ul>
+            </div>
+
+            <div class="section">
+                <h2>Retrieval Methods</h2>
+                <ul class="item-list">
+                    <li class="item"><span class="feature">Semantic</span> - Vector similarity</li>
+                    <li class="item"><span class="feature">Keyword</span> - BM25 scoring</li>
+                    <li class="item"><span class="feature">Hybrid</span> - Combined approach</li>
+                    <li class="item"><span class="feature">MMR</span> - Diversity ranking</li>
+                    <li class="item"><span class="feature">Self-Query</span> - Metadata filtering</li>
+                    <li class="item"><span class="feature">Parent-Child</span> - Hierarchical</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Two Column Sections -->
+        <div class="two-col">
+            <div class="compact-section">
+                <h3 data-icon="generation">Response Generation</h3>
+                <table class="table">
+                    <tr><th>Technique</th><th>Description</th><th>Use Case</th></tr>
+                    <tr><td><span class="code">Stuffing</span></td><td>All context in prompt</td><td>Short docs</td></tr>
+                    <tr><td><span class="code">Map-Reduce</span></td><td>Parallel processing</td><td>Large datasets</td></tr>
+                    <tr><td><span class="code">Refine</span></td><td>Iterative improvement</td><td>Quality focus</td></tr>
+                    <tr><td><span class="code">Map-Rerank</span></td><td>Score & select best</td><td>Confidence needed</td></tr>
+                </table>
+            </div>
+
+            <div class="compact-section">
+                <h3 data-icon="evaluation">Evaluation Metrics</h3>
+                <table class="table">
+                    <tr><th>Metric</th><th>Formula</th><th>Good Score</th></tr>
+                    <tr><td><span class="metric">Precision@K</span></td><td>Relevant/Retrieved</td><td>>0.7</td></tr>
+                    <tr><td><span class="metric">Recall@K</span></td><td>Retrieved/Total</td><td>>0.8</td></tr>
+                    <tr><td><span class="metric">NDCG</span></td><td>Normalized DCG</td><td>>0.6</td></tr>
+                    <tr><td><span class="metric">BLEU</span></td><td>N-gram overlap</td><td>>0.4</td></tr>
+                    <tr><td><span class="metric">ROUGE</span></td><td>Summary quality</td><td>>0.5</td></tr>
+                    <tr><td><span class="metric">Faithfulness</span></td><td>Fact accuracy</td><td>>0.9</td></tr>
+                </table>
+            </div>
+        </div>
+
+        <!-- Three Column Sections -->
+        <div class="three-col">
+            <div class="compact-section">
+                <h3 data-icon="optimization">Query Optimization</h3>
+                <div class="small-text">
+                    <span class="code">🔍</span> Query expansion with synonyms<br>
+                    <span class="code">📝</span> Rephrase ambiguous queries<br>
+                    <span class="code">🎯</span> Intent classification<br>
+                    <span class="code">📊</span> Query-document similarity<br>
+                    <span class="code">🔄</span> Multi-step retrieval<br>
+                    <span class="code">⚡</span> Caching frequent queries
+                </div>
+            </div>
+
+            <div class="compact-section">
+                <h3 data-icon="issues">Common Issues</h3>
+                <div class="small-text">
+                    <span class="code">❌</span> Irrelevant results<br>
+                    <span class="code">🐌</span> Slow retrieval speed<br>
+                    <span class="code">🔄</span> Outdated information<br>
+                    <span class="code">📏</span> Context window limits<br>
+                    <span class="code">🎯</span> Low precision/recall<br>
+                    <span class="code">💸</span> High API costs
+                </div>
+            </div>
+
+            <div class="compact-section">
+                <h3 data-icon="monitoring">Performance Monitoring</h3>
+                <div class="small-text">
+                    <span class="code">📈</span> Response time tracking<br>
+                    <span class="code">🎯</span> Relevance scoring<br>
+                    <span class="code">👥</span> User feedback loops<br>
+                    <span class="code">📊</span> A/B testing<br>
+                    <span class="code">🔍</span> Query analysis<br>
+                    <span class="code">💾</span> Database performance
+                </div>
+            </div>
+        </div>
+
+        <!-- Status and Solutions -->
+        <div class="two-col">
+            <div class="compact-section">
+                <h3 data-icon="optimization">Optimization Strategies</h3>
+                <table class="table">
+                    <tr><th>Strategy</th><th>Impact</th><th>Complexity</th></tr>
+                    <tr><td><span class="code">Reranking</span></td><td>High</td><td>Medium</td></tr>
+                    <tr><td><span class="code">Query expansion</span></td><td>Medium</td><td>Low</td></tr>
+                    <tr><td><span class="code">Hybrid search</span></td><td>High</td><td>Medium</td></tr>
+                    <tr><td><span class="code">Fine-tuning</span></td><td>Very High</td><td>High</td></tr>
+                    <tr><td><span class="code">Caching</span></td><td>Medium</td><td>Low</td></tr>
+                    <tr><td><span class="code">Prompt engineering</span></td><td>Medium</td><td>Low</td></tr>
+                </table>
+            </div>
+
+            <div class="compact-section">
+                <h3 data-icon="tools">Tools & Libraries</h3>
+                <table class="table">
+                    <tr><th>Tool</th><th>Purpose</th><th>Language</th></tr>
+                    <tr><td><span class="code">LangChain</span></td><td>RAG framework</td><td>Python/JS</td></tr>
+                    <tr><td><span class="code">LlamaIndex</span></td><td>Data indexing</td><td>Python</td></tr>
+                    <tr><td><span class="code">Pinecone</span></td><td>Vector database</td><td>API</td></tr>
+                    <tr><td><span class="code">Weaviate</span></td><td>Vector search</td><td>GraphQL</td></tr>
+                    <tr><td><span class="code">Chroma</span></td><td>Embedding DB</td><td>Python</td></tr>
+                    <tr><td><span class="code">FAISS</span></td><td>Similarity search</td><td>Python/C++</td></tr>
+                </table>
+            </div>
+        </div>
+
+        <!-- Quick Reference -->
+        <div class="ref-grid">
+            <div class="ref-item">
+                <span class="key">🧠 RAG</span>
+                <div class="val">Retrieval-Augmented Generation</div>
+            </div>
+            <div class="ref-item">
+                <span class="key">📊 NDCG</span>
+                <div class="val">Normalized Discounted Cumulative Gain</div>
+            </div>
+            <div class="ref-item">
+                <span class="key">🔍 MMR</span>
+                <div class="val">Maximal Marginal Relevance</div>
+            </div>
+            <div class="ref-item">
+                <span class="key">⚡ BM25</span>
+                <div class="val">Best Matching 25</div>
+            </div>
+            <div class="ref-item">
+                <span class="key">🎯 DCG</span>
+                <div class="val">Discounted Cumulative Gain</div>
+            </div>
+            <div class="ref-item">
+                <span class="key">📝 BLEU</span>
+                <div class="val">Bilingual Evaluation Understudy</div>
+            </div>
+        </div>
+
+        <!-- Critical Information -->
+        <div class="tips">
+            <strong>💡 Pro Tips:</strong> Use hybrid search for best results • Implement proper chunking strategies • Monitor retrieval quality continuously • Cache frequent queries • Fine-tune embeddings for domain • A/B test different approaches
+        </div>
+
+        <div class="warning">
+            <strong>⚠️ Best Practices:</strong> Keep chunks balanced (512-1024 tokens) • Use metadata for filtering • Implement fallback mechanisms • Monitor token usage • Test with diverse queries • Regular index updates • Security-first approach
+        </div>
+
+        <!-- Footer -->
+        <div class="info">
+            <strong>🌐 Resources:</strong> langchain.com • llamaindex.ai • pinecone.io • weaviate.io | <strong>📚 Papers:</strong> RAG (Lewis et al.) • Dense Passage Retrieval • ColBERT | <strong>👥 Team:</strong> TechxConf • Web: techxconf.com
+        </div>
+    </div>
+</body>
+</html>
